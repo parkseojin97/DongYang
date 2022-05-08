@@ -1,5 +1,7 @@
 package com.pmis.config;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -10,13 +12,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(basePackages = "com.pmis.mapper")
+@MapperScan(basePackages = { "com.pmis.mapper" })
 public class MyBatisConfig {
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource datasource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
 		sqlSessionFactory.setDataSource(datasource);
-		sqlSessionFactory.setTypeAliasesPackage("com.pmis.model");
+		sqlSessionFactory.setTypeAliasesPackage("com.pmis.mapper");
+		Properties properties = new Properties();
+		properties.setProperty("mapUnderscoreToCamelCase", "false");
+		sqlSessionFactory.setConfigurationProperties(properties);
 		return sqlSessionFactory.getObject();
 	}
 

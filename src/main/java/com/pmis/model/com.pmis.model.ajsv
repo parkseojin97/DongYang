@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--AgileJ Ltd. (http://www.agilej.com)--><ajsv>
-    <diagram creationDate="2022-4월-09 17:46" licenseGrade="single" licenseeName="AgileJ community member" licenseeOrganization="agilej-community" populationMethod="Wizard+PACKAGE" version="1.9.2.v20190518-1152">
+    <diagram creationDate="2022-5월-05 23:26" licenseGrade="single" licenseeName="AgileJ community member" licenseeOrganization="agilej-community" populationMethod="manual" version="1.9.2.v20190518-1152">
         <filterScript>
 
 // no filter script yet defined for this class diagram
 // use CTRL+SPACE for completion suggestions
 
 </filterScript>
-        <class className="com.pmis.model.CmmnDTO" modelMemberId="com.pmis.model.CmmnDTO" project="Dongyang-PMIS" xLocation="30" yLocation="30"/>
+        <class className="com.pmis.model.ProjectBoardDTO" modelMemberId="com.pmis.model.ProjectBoardDTO" project="dongyang-pmis-mirror" xLocation="935" yLocation="572"/>
+        <class className="com.pmis.model.ProjectDTO" modelMemberId="com.pmis.model.ProjectDTO" project="dongyang-pmis-mirror" xLocation="388" yLocation="567"/>
+        <class className="com.pmis.model.BoardCommentDTO" modelMemberId="com.pmis.model.BoardCommentDTO" project="dongyang-pmis-mirror" xLocation="1271" yLocation="34"/>
+        <class className="com.pmis.model.UserRoleDTO" modelMemberId="com.pmis.model.UserRoleDTO" project="dongyang-pmis-mirror" xLocation="8" yLocation="576"/>
+        <class className="com.pmis.model.ProjectRuleDTO" modelMemberId="com.pmis.model.ProjectRuleDTO" project="dongyang-pmis-mirror" xLocation="376" yLocation="66"/>
+        <class className="com.pmis.model.ProjectJoinDTO" modelMemberId="com.pmis.model.ProjectJoinDTO" project="dongyang-pmis-mirror" xLocation="53" yLocation="1115"/>
+        <class className="com.pmis.model.UserDTO" modelMemberId="com.pmis.model.UserDTO" project="dongyang-pmis-mirror" xLocation="20" yLocation="88"/>
+        <class className="com.pmis.model.StatusDTO" modelMemberId="com.pmis.model.StatusDTO" project="dongyang-pmis-mirror" xLocation="810" yLocation="30"/>
     </diagram>
 </ajsv>

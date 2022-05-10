@@ -28,7 +28,7 @@ maven-test:
   stage: test
   script: "mvn test -B"
 
-deploy:
+maven-deploy:
   stage: deploy
   image: ruby:latest
   script:

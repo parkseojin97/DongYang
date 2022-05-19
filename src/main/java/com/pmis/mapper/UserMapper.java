@@ -11,7 +11,7 @@ public interface UserMapper extends DefaultDBInfo {
 
 	
 	// 회원 정보 생성 메서드 (비밀번호 암호화)
-	@Insert("INSERT INTO " + USER + " VALUES (#{user_id},#{user_pw}, #{user_name}, #{create_time}, #{user_col})")
+	@Insert("INSERT INTO " + USER + " VALUES (#{user_id},#{user_pw}, #{user_name}, #{create_time})")
 	void insertUser(UserDTO user);
 
 	// 회원 로그인 메서드

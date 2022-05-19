@@ -15,7 +15,7 @@ public interface ProjectBoardMapper extends DefaultDBInfo {
 
 	// 글 등록 메서드
 	@Insert("INSERT INTO " + PROJECTBOARD
-			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},#{board_create_date},#{status_id},#{create_user_id}, #{start_user_id})")
+			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},#{board_create_date},#{create_user_id}, #{start_user_id})")
 	void regist(ProjectBoardDTO projectBoardDTO);
 	
 	// 글 목록을 가지고 오는 메서드(페이징 처리를 안하고 목록전체 보여주기)

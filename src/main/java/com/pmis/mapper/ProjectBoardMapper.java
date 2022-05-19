@@ -12,13 +12,14 @@ import com.pmis.model.BoardCommentDTO;
 import com.pmis.model.ProjectBoardDTO;
 
 public interface ProjectBoardMapper extends DefaultDBInfo {
+
 	// 글 등록 메서드
 	@Insert("INSERT INTO " + PROJECTBOARD
-			+ " VALUES(null,#{board_id},#{board_subject},#{board_content},#{board_create_date},#{board_start_date},#{board_end_date},#{user_user_start_id},#{user_user_create_id}, #{status_status_id})")
+			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},#{board_create_date},#{status_id},#{create_user_id}, #{start_user_id})")
 	void regist(ProjectBoardDTO projectBoardDTO);
-
+	
 	// 글 목록을 가지고 오는 메서드(페이징 처리를 안하고 목록전체 보여주기)
-	@Select("SELECT * FROM " + PROJECTBOARD + " ORDER BY project_project_id DESC")
+	@Select("SELECT * FROM " + PROJECTBOARD + " ORDER BY board_id DESC")
 	ArrayList<ProjectBoardDTO> listBoard();
 
 	// 글 상세보기 메서드
@@ -36,12 +37,12 @@ public interface ProjectBoardMapper extends DefaultDBInfo {
 	// 댓글 불러오는 메서드
 	@Select("SELECT * FROM " + BOARDCOMMENT + " WHERE board_id=${board_id}")
 	ArrayList<BoardCommentDTO> getComment(BoardCommentDTO boardCommentDTO);
-
+	
 	// 댓글 추가하는 메서드
-	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES(null, ${comment_num}, ${user_user_id}, #{comment_content})")
+	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES(null, ${board_id}, ${user_id}, #{comment_content})")
 	void addComment(BoardCommentDTO boardCommentDTO);
-
+	
 	// 댓글 삭제하는 메서드
-	@Delete("DELETE FROM " + BOARDCOMMENT + " WHERE comment_num=${comment_num} AND board_id=${board_id}")
+	@Delete("DELETE FROM " + BOARDCOMMENT + " WHERE comment_id=${comment_id} AND board_id=${board_id}")
 	void removeComment(BoardCommentDTO boardCommentDTO);
 }

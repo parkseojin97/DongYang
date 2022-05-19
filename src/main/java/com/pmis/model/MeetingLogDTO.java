@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 @SuppressWarnings("unused")
-public class UserDTO {
+public class MeetingLogDTO {
+	private int meeting_id;
+	private String meeting_log_id;
+	private String meeting_log_subject;
 	private String user_id;
-	private String user_pw;
-	private String user_name;
-	private Date create_time;
 	
 }

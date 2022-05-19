@@ -1,11 +1,13 @@
 package com.pmis.model;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
 @SuppressWarnings("unused")
-public class ProjectJoinDTO {
-	private int project_id;
+public class ConnectUserDTO {
+	private int meeting_id;
 	private String user_id;
-	private String role;
+	
 }

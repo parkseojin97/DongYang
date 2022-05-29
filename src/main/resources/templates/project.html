@@ -1,141 +1,498 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>프로젝트 관리 프로그램</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Angkor&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Anton&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Narrow&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Animation-Cards-1.css">
-    <link rel="stylesheet" href="assets/css/Animation-Cards.css">
-    <link rel="stylesheet" href="assets/css/dropdown-search-bs4.css">
-    <link rel="stylesheet" href="assets/css/Footer-with-social-media-icons.css">
-    <link rel="stylesheet" href="assets/css/gradient-navbar-1.css">
-    <link rel="stylesheet" href="assets/css/gradient-navbar.css">
+    <title>spmis0529</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/css/theme.bootstrap_4.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css">
-    <link rel="stylesheet" href="assets/css/Login-Form-Basic.css">
-    <link rel="stylesheet" href="assets/css/Ludens---Create-Edit-Form.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Dropdown-List-Item.css">
-    <link rel="stylesheet" href="assets/css/Referral-Product-List-Amazon.css">
-    <link rel="stylesheet" href="assets/css/sidebar-1.css">
-    <link rel="stylesheet" href="assets/css/Sidebar-Cool-SB-Admin-Inspirate.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/simple-footer.css">
-    <link rel="stylesheet" href="assets/css/untitled.css">
+<script src="https://cdn.tiny.cloud/1/0mwjfs8tijzbt7jipwitlhmj1l6rg57ggo1uh82ty5ccpwnw/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
-<body style="height: 1000px;">
-    <nav class="navbar navbar-dark navbar-expand-md d-xl-flex" id="app-navbar">
-        <div class="container-fluid"><a class="navbar-brand" href="#"><i id="brand-logo" class="icon ion-ios-infinite"></i></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="dropdown">
-                <div class="dropdown-menu"><input type="text" class="form-control dropdown-search-input" placeholder="Search.."><a class="dropdown-item" href="#">Angular</a><a class="dropdown-item" href="#">Java</a><a class="dropdown-item" href="#">JavaScript</a></div>
-            </div>
-            <div class="collapse navbar-collapse flex-row-reverse" id="navcol-1">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link active" href="index.html">HOME</a></li>
+<body style="padding-left: 14rem;">
+    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
+        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
+                        <div class="container" th:if="${session.mem != null}">
+                            <div class="row">
+                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"><span class="p-1" th:text="${session.mem.getNickname()}">닉네임</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
+                </div>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link active" href="projects">프로젝트</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
                 </ul>
             </div>
-            <div class="dropdown menu_links" style="background: #717778;width: 80px;text-align: right;font-weight: bold;color: #f1f1f1;"><a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" style="margin-right: 10px;color: rgba(255,255,255,0.75);border-color: rgba(0,0,0,0);">내 정보</a>
-                <div class="dropdown-menu"><a class="dropdown-item" href="project.html">마이 페이지</a><a class="dropdown-item" href="index.html">로그아웃</a></div>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2" th:if="${session.mem != null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"></a>
+                <div class="dropdown-menu">
+                    <h6 class="dropdown-header"><span th:text="${session.mem.getNickname()}">닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
+                </div>
             </div>
         </div>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <div id="sidenavAccordion" class="sb-sidenav accordion sb-sidenav-dark">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div>
-                            <div class="sb-sidenav-menu-heading"><span style="font-size: 16px;">프로젝트</span></div><a class="nav-link active" href="#"><i class="fa fa-book"></i>
-                                <div class="sb-nav-link-icon"></div><span>내 프로젝트</span>
-                            </a><a class="nav-link active" href="createProject.html">
-                                <div class="sb-nav-link-icon"><i class="fa fa-plus"></i></div><span>프로젝트 생성</span>
-                            </a>
+    </nav><!-- Start: Sidebar -->
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
+        <!-- Start: Logo Holder -->
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+        </li><!-- End: Logo Holder -->
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#" data-bs-target="projects"><span>Project 1</span></a><a class="dropdown-item" href="#"><span>Project 2</span></a><a class="dropdown-item" href="settings.html"><span>Project 3</span></a></div>
+        </li>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
+        </li>
+        <li class="nav-item"></li>
+    </ul><!-- End: Sidebar -->
+    <div class="container mb-4 ms-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#"><span>프로젝트명</span></a></li>
+            <li class="breadcrumb-item"><a href="#"><span id="bc_item_title">페이지명</span><script>
+    let webTitle=document.title;
+    document.querySelector("#bc_item_title").textContent=webTitle;
+</script></a></li>
+        </ol>
+        <hr>
+    </div>
+    <div class="container mb-4">
+        <div class="row">
+            <div class="col align-self-center">
+                <h4>subject명</h4>
+            </div>
+            <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+        </div>
+    </div>
+    <main>
+        <div class="container mb-4">
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3 mb-4">
+                    <div class="card">
+                        <div class="card-header"><span class="fw-bold p-1">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-body">
+                            <div class="card" data-bss-hover-animate="pulse" data-bs-target="#modal_edit_task" data-bs-toggle="modal">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4>TASK 1</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" data-bs-target="#modal-3" data-bs-toggle="modal">
+                                <div class="card-body" data-bss-hover-animate="pulse">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3">
+                    <div class="card">
+                        <div class="card-header"><span class="fw-bold p-1">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 1</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3">
+                    <div class="card">
+                        <div class="card-header"><span class="fw-bold p-1">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 1</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3">
+                    <div class="card">
+                        <div class="card-header"><span class="fw-bold p-1">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 1</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3 mb -2">
+                    <div class="card">
+                        <div class="card-header"><span class="fw-bold p-1">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-body">
+                            <div class="card" data-bss-hover-animate="pulse" data-bs-target="#modal-3" data-bs-toggle="modal">
+                                <div class="card-body">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 1</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" data-bs-target="#modal-3" data-bs-toggle="modal">
+                                <div class="card-body" data-bss-hover-animate="pulse">
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <h4>TASK 2</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col">
+                                            <p>Paragraph</p>
+                                        </div>
+                                    </div>
+                                    <div class="row p-1">
+                                        <div class="col text-start align-self-center"><span class="fw-bold bg-warning">LABEL</span></div>
+                                        <div class="col text-end align-self-center"><img class="rounded-circle" src="https://i.pravatar.cc/40"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+                                </svg></button></div>
+                    </div>
+                </div>
+            </div>
+        </div><button class="btn btn-primary d-flex justify-content-center align-items-center align-content-center position-fixed" data-bs-toggle="modal" data-bss-tooltip="" id="float-btn-add" type="button" title="Board를 생성합니다" data-bs-target="#modal_add_board"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg">
+                <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
+            </svg></button>
+        <div class="container" id="container_css">
+            <h4>Project Rule</h4>
+            <div class="table-responsive" id="rule" style="font-size: 23px;">
+                <table class="table">
+                    <thead class="fs-5">
+                        <tr>
+                            <th id="th_w1">번호</th>
+                            <th id="th_w2">프로젝트 룰</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>토요일 8시 정기회의<button class="btn btn-primary float-end" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-trash">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                                    </svg></button></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>대충 아무내용<button class="btn btn-primary float-end" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-trash">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                                    </svg></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-end"><button class="btn btn-primary text-center mb-4" type="button">추가</button></div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal_add_board">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Board 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/createboardPost" method="post"><label class="form-label">Board 이름</label><input class="form-control" type="text">
+                            <div class="d-lg-flex justify-content-lg-end mt-2"><button class="btn btn-light" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary" type="submit">저장</button></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal_add_task">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Task 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/taskCreate" method="post"><label class="form-label">Task 이름</label><input class="form-control mb-2" type="text"><label class="form-label">내용</label><textarea class="form-control" id="txtTinyMCE" name="write-content" autocomplete="off" spellcheck="true"></textarea>
+                            <div class="row">
+                                <div class="col">
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item list-group-item-light">
+                                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">작업자</button>
+                                                <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item list-group-item-light d-lg-flex d-xl-flex align-items-center"><span class="text-center text-dark">마감기한</span></li>
+                                        <li class="list-group-item list-group-item-light"><input class="form-control" type="datetime-local"></li>
+                                    </ul>
+                                </div>
+                            </div><button class="btn btn-light float-end" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary float-end" type="button">저장</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal_edit_task">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Task</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/taskEdit" method="post">
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-3 d-flex flex-fill align-items-sm-center align-items-xl-center p-0">
+                                            <ul class="list-group list-group-horizontal flex-fill">
+                                                <li class="list-group-item list-group-item-light"><span class="text-dark" th:text="${articles.getBd_writer()}">닉네임</span></li>
+                                                <li class="list-group-item list-group-item-light flex-fill"><i class="far fa-clock text-dark"></i><span class="text-dark" th:text="${articles.getBd_date()}">작성일<br></span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xxl-3 d-flex align-items-sm-center align-items-xl-center">
+                                            <ul class="list-group list-group-horizontal">
+                                                <li class="list-group-item list-group-item-light"><i class="far fa-eye text-dark"></i><span class="text-dark" th:text="${articles.getBd_views()}">조회수<br></span></li>
+                                                <li class="list-group-item list-group-item-light"><i class="fas fa-heart text-dark text-danger"></i><span class="text-dark" th:text="${articles.getBd_favorite()}">좋아요수<br></span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xl-3 d-flex flex-fill align-items-sm-center p-0">
+                                            <ul class="list-group list-group-horizontal">
+                                                <li class="list-group-item list-group-item-light d-flex align-items-xxl-center"><span class="text-dark">작업자</span></li>
+                                                <li class="list-group-item list-group-item-light">
+                                                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">해야할일</button>
+                                                        <div class="dropdown-menu"><a class="dropdown-item" href="#">해야 할 일</a><a class="dropdown-item" href="#">진행중</a><a class="dropdown-item" href="#">종료</a></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xxl-3 d-flex flex-fill align-items-sm-center p-0">
+                                            <ul class="list-group list-group-horizontal">
+                                                <li class="list-group-item list-group-item-light"><span class="text-dark">마감시간</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text" th:utext="${articles.getBd_content()}">글내용<br></p>
+                                </div>
+                                <div class="card-footer p-1">
+                                    <div class="col">
+                                        <div class="btn-group float-end" role="group"><button class="btn btn-danger" type="button" th:onclick="'location.href='+ '\'' +@{/favoriteBoard(bd_no=${bd_no})} + '\''"><i class="fas fa-heart"></i></button><button class="btn btn-info" type="button" th:onclick="'location.href='+ '\'' +@{/content_update(bd_no=${bd_no})} + '\''"><i class="fas fa-pencil-alt text-white"></i></button><button class="btn btn-secondary" type="button" th:onclick="'location.href='+ '\'' +@{/content_delete(bd_no=${bd_no})} + '\''"><i class="fas fa-trash-alt"></i></button></div>
+                                    </div>
+                                </div>
+                                <div class="card-body pt-2 p-1">
+                                    <form method="post" action="/commentPOST"><input class="form-control" type="hidden" name="mem_no" th:if="${session.mem!=null}" th:value="${session.mem.getMem_no()}"><input class="form-control" type="hidden" name="bd_no" th:if="${session.mem!=null}" th:value="${articles.getBd_no()}">
+                                        <div class="input-group" th:unless="${session.mem==null}"><input class="form-control" type="text" placeholder="댓글을 입력하세요" name="content" autocomplete="off"><button class="btn btn-success float-end btn-success" type="submit"><i class="fas fa-paper-plane"></i></button></div>
+                                    </form>
+                                </div>
+                                <div class="card-body pt-2 p-1 pb-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-fixed">
+                                            <tbody>
+                                                <tr th:each="comment, i : ${comments}">
+                                                    <td class="p-0">
+                                                        <form action="/commentRemove" method="post"><input class="form-control" type="hidden" name="bd_no" th:value="${articles.getBd_no()}">
+                                                            <div class="row p-0 m-0">
+                                                                <div class="col-auto align-self-center p-0"><img class="img-fluid rounded-circle" id="comment-user-img" width="40px" height="40px" alt="프로필이미지" th:src="${comments_user[i.index].getProfile_image()}"></div>
+                                                                <div class="col"><strong th:text="${comments_user[i.index].getNickname()}">닉네임</strong><span class="text-secondary ms-2" th:text="${comment.getComment_date()}">02:05</span>
+                                                                    <p class="m-0" th:text="${comment.getContent()}">댓글내용</p>
+                                                                </div>
+                                                                <div class="col-auto align-self-center me-0 pe-0" th:if="${session.mem != null &amp;&amp; session.mem.getMem_no() eq comments_user[i.index].getMem_no()}"><button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
+                                                            </div><input class="form-control" type="hidden" name="comment_no" th:value="${comment.getComment_no()}">
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td class="p-0">
+                                                        <div class="bg-light bg-gradient shadow-sm"><button class="btn btn-link w-100 text-decoration-none text-secondary" type="button" onclick="location.href=&#39;#&#39;"><span>더보기</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chevron-down">
+                                                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
+                                                                </svg></button></div>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-body d-lg-flex justify-content-lg-end pt-2 p-1 pb-0"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="layoutSidenav_content">
-            <main class="d-xl-flex align-items-xl-start" data-aos="fade">
-                <div><label class="form-label" style="font-family: Nunito, sans-serif;font-weight: bold;transform: translateX(80px);font-size: 20px;">내 프로젝트</label></div>
-            </main>
-            <div class="d-xl-flex">
-                <div class="card border-white border rounded shadow-lg" data-bss-hover-animate="pulse" style="width: 230px;height: 350px;margin: 10px;margin-left: 15px;"><div class="card-body" style="width: 205px;height: 350px;padding: 0px;margin: 10px;">
-    <label class="form-label" name = "lblprojectName"style="font-size: 20px" >
-        <b>Project Name</b>
-    </label>
-    
-    <br>
-    
-    <label class="form-label">
-        Label
-    </label>
-    
-    <p class="card-text" style="width: 180px;margin-top: 15px;margin-bottom: 20px;">
-        Donec id elit non mi porta gravida at eget metus. Project description
-    </p>
-    
-    <div class="btn-group" role="group">
-        
-        <button class="btn btn-primary" type="button" style="background-color: rgb(72,72,72);">
-            Github
-        </button>
-       
-        <button class="btn btn-primary" type="button" style="margin-left: 7px;">
-            info
-        </button>
-        
-    </div>
-
-</div>
-</div>
+    </main><!-- Start: Footer Clean -->
+    <footer class="text-center bg-secondary bg-primary">
+        <div class="container bg-secondary">
+            <div class="col">
+                <ul class="list-inline my-2">
+                    <li class="list-inline-item">
+                        <div class="bs-icon-xs bs-icon-circle bs-icon-primary bg-secondary bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-github">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                            </svg></div>
+                    </li>
+                    <li class="list-inline-item">
+                        <div>
+                            <p class="text-white my-2">Copyright&nbsp;© 2022 SPMIS</p>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
-    <div class="footer-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-8 col-sm-6 col-md-6">
-                    <p class="text-start" style="margin-top:5%;margin-bottom:3%;">© 2017 Centercom Global BPO</p>
-                </div>
-                <div class="col-12 col-sm-6 col-md-6">
-                    <p class="text-end" style="margin-top:5%;margin-bottom:8%%;font-size:1em;">Privacy Policy</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script src="assets/js/dropdown-search-bs4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/widgets/widget-filter.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/widgets/widget-storage.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
-    <script src="assets/js/Ludens---Create-Edit-Form-1.js"></script>
-    <script src="assets/js/Ludens---Create-Edit-Form-2.js"></script>
-    <script src="assets/js/Ludens---Create-Edit-Form-3.js"></script>
-    <script src="assets/js/Ludens---Create-Edit-Form.js"></script>
-    <script src="assets/js/Referral-Product-List-Amazon.js"></script>
-    <script src="assets/js/theme.js"></script>
+    </footer><!-- End: Footer Clean -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
 </body>
 
 </html>

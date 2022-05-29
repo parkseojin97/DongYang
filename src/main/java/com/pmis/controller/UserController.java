@@ -61,7 +61,7 @@ public class UserController {
 			if (user.getUser_pw().equals(userInfo.getUser_pw())) {
 				session.setAttribute("mem", userInfo);
 				out.println("<script>");
-				out.println("location.href='table';");
+				out.println("location.href='projects';");
 				out.println("</script>");
 			} else {
 				out.println("<script>");

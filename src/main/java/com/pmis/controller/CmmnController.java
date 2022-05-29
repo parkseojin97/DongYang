@@ -18,11 +18,6 @@ public class CmmnController {
 
 		return "index";
 	}
-	@GetMapping("/index")
-	public String mainIndex(Model model) {
-
-		return "index";
-	}
 
 	@GetMapping("errorHandler")
 	public String errorHandler(Model model) {

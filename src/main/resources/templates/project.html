@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>spmis0529</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Navbar-With-Button.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 <script src="https://cdn.tiny.cloud/1/0mwjfs8tijzbt7jipwitlhmj1l6rg57ggo1uh82ty5ccpwnw/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
@@ -19,9 +21,9 @@
         <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
-                        <div class="container" th:if="${session.mem != null}">
+                        <div class="container">
                             <div class="row">
-                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" ><span class="p-1" th:text="${session.mem.getUser_name()}">닉네임</span></div>
+                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
                             </div>
                         </div>
                     </a>
@@ -32,9 +34,9 @@
                     <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
                 </ul>
             </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2" th:if="${session.mem != null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" ></a>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
                 <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span th:text="${session.mem.getUser_name()}">닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
+                    <h6 class="dropdown-header"><span>닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -394,14 +396,14 @@
                                     <div class="row">
                                         <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-3 d-flex flex-fill align-items-sm-center align-items-xl-center p-0">
                                             <ul class="list-group list-group-horizontal flex-fill">
-                                                <li class="list-group-item list-group-item-light"><span class="text-dark" >닉네임</span></li>
-                                                <li class="list-group-item list-group-item-light flex-fill"><i class="far fa-clock text-dark"></i><span class="text-dark" >작성일<br></span></li>
+                                                <li class="list-group-item list-group-item-light"><span class="text-dark">닉네임</span></li>
+                                                <li class="list-group-item list-group-item-light flex-fill"><i class="far fa-clock text-dark"></i><span class="text-dark">작성일<br></span></li>
                                             </ul>
                                         </div>
                                         <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xxl-3 d-flex align-items-sm-center align-items-xl-center">
                                             <ul class="list-group list-group-horizontal">
-                                                <li class="list-group-item list-group-item-light"><i class="far fa-eye text-dark"></i><span class="text-dark" ">조회수<br></span></li>
-                                                <li class="list-group-item list-group-item-light"><i class="fas fa-heart text-dark text-danger"></i><span class="text-dark" ">좋아요수<br></span></li>
+                                                <li class="list-group-item list-group-item-light"><i class="far fa-eye text-dark"></i><span class="text-dark">조회수<br></span></li>
+                                                <li class="list-group-item list-group-item-light"><i class="fas fa-heart text-dark text-danger"></i><span class="text-dark">좋아요수<br></span></li>
                                             </ul>
                                         </div>
                                         <div class="col-auto col-sm-12 col-md-12 col-lg-6 col-xl-3 d-flex flex-fill align-items-sm-center p-0">
@@ -422,32 +424,32 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text" ">글내용<br></p>
+                                    <p class="card-text">글내용<br></p>
                                 </div>
                                 <div class="card-footer p-1">
                                     <div class="col">
-                                        <div class="btn-group float-end" role="group"><button class="btn btn-danger" type="button" th:onclick="'location.href='+ '\'' +@{/favoriteBoard(bd_no=${bd_no})} + '\''"><i class="fas fa-heart"></i></button><button class="btn btn-info" type="button" th:onclick="'location.href='+ '\'' +@{/content_update(bd_no=${bd_no})} + '\''"><i class="fas fa-pencil-alt text-white"></i></button><button class="btn btn-secondary" type="button" th:onclick="'location.href='+ '\'' +@{/content_delete(bd_no=${bd_no})} + '\''"><i class="fas fa-trash-alt"></i></button></div>
+                                        <div class="btn-group float-end" role="group"><button class="btn btn-danger" type="button"><i class="fas fa-heart"></i></button><button class="btn btn-info" type="button"><i class="fas fa-pencil-alt text-white"></i></button><button class="btn btn-secondary" type="button"><i class="fas fa-trash-alt"></i></button></div>
                                     </div>
                                 </div>
                                 <div class="card-body pt-2 p-1">
-                                    <form method="post" action="/commentPOST"><input class="form-control" type="hidden" name="mem_no" th:if="${session.mem!=null}" ><input class="form-control" type="hidden" name="bd_no" th:if="${session.mem!=null}" >
-                                        <div class="input-group" th:unless="${session.mem==null}"><input class="form-control" type="text" placeholder="댓글을 입력하세요" name="content" autocomplete="off"><button class="btn btn-success float-end btn-success" type="submit"><i class="fas fa-paper-plane"></i></button></div>
+                                    <form method="post" action="/commentPOST"><input class="form-control" type="hidden" name="mem_no"><input class="form-control" type="hidden" name="bd_no">
+                                        <div class="input-group"><input class="form-control" type="text" placeholder="댓글을 입력하세요" name="content" autocomplete="off"><button class="btn btn-success float-end btn-success" type="submit"><i class="fas fa-paper-plane"></i></button></div>
                                     </form>
                                 </div>
                                 <div class="card-body pt-2 p-1 pb-0">
                                     <div class="table-responsive">
                                         <table class="table table-fixed">
                                             <tbody>
-                                                <tr th:each="comment, i : ${comments}">
+                                                <tr>
                                                     <td class="p-0">
-                                                        <form action="/commentRemove" method="post"><input class="form-control" type="hidden" name="bd_no" >
+                                                        <form action="/commentRemove" method="post"><input class="form-control" type="hidden" name="bd_no">
                                                             <div class="row p-0 m-0">
-                                                                <div class="col-auto align-self-center p-0"><img class="img-fluid rounded-circle" id="comment-user-img" width="40px" height="40px" alt="프로필이미지" ></div>
-                                                                <div class="col"><strong >닉네임</strong><span class="text-secondary ms-2" >02:05</span>
+                                                                <div class="col-auto align-self-center p-0"><img class="img-fluid rounded-circle" id="comment-user-img" width="40px" height="40px" alt="프로필이미지"></div>
+                                                                <div class="col"><strong>닉네임</strong><span class="text-secondary ms-2">02:05</span>
                                                                     <p class="m-0">댓글내용</p>
                                                                 </div>
-                                                                <div class="col-auto align-self-center me-0 pe-0" th:if="${session.mem != null &amp;&amp;"><button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
-                                                            </div><input class="form-control" type="hidden" name="comment_no" ">
+                                                                <div class="col-auto align-self-center me-0 pe-0"><button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
+                                                            </div><input class="form-control" type="hidden" name="comment_no">
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -455,13 +457,13 @@
                                             <tfoot>
                                                 <tr>
                                                     <td class="p-0">
-                                                        <div class="bg-light bg-gradient shadow-sm"><button class="btn btn-link w-100 text-decoration-none text-secondary" type="button" onclick="location.href='#';"><span>더보기</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chevron-down">
-                                                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.7080l-6-6a.5.5 0 0 1 0-.708z"></path>
+                                                        <div class="bg-light bg-gradient shadow-sm"><button class="btn btn-link w-100 text-decoration-none text-secondary" type="button" onclick="location.href=&#39;#&#39;"><span>더보기</span><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-chevron-down">
+                                                                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"></path>
                                                                 </svg></button></div>
                                                     </td>
                                                 </tr>
                                             </tfoot>
-                                        </table> 
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="card-body d-lg-flex justify-content-lg-end pt-2 p-1 pb-0"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
@@ -483,7 +485,7 @@
                     </li>
                     <li class="list-inline-item">
                         <div>
-                            <p class="text-white my-2">Copyright © 2022 SPMIS</p>
+                            <p class="text-white my-2">Copyright&nbsp;© 2022 SPMIS</p>
                         </div>
                     </li>
                 </ul>
@@ -492,7 +494,9 @@
     </footer><!-- End: Footer Clean -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/tinymce.js"></script>
 </body>
 
 </html>

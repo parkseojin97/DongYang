@@ -110,11 +110,14 @@
 			<version>[1.29.0, )</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.oracle/ojdbc6 -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11 -->
+		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6 -->
 		<dependency>
-			<groupId>com.oracle</groupId>
+			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc6</artifactId>
-			<version>12.2.0.1</version>
+			<version>11.2.0.4</version>
 		</dependency>
+
 
 	</dependencies>
 

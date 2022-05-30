@@ -7,34 +7,31 @@
     <title>spmis0529</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Navbar-With-Button.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body style="padding-left: 14rem;">
     <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-2">
                 <div class="dropdown d-md-none navbar-left" id="usericon-mobile-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
-                        <div class="container" th:if="${session.mem != null}">
+                        <div class="container">
                             <div class="row">
-                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"><span class="p-1" th:text="${session.mem.getNickname()}">닉네임</span></div>
+                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
                             </div>
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
                 </div>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="projects.html">프로젝트</a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
                 </ul>
             </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1" th:if="${session.mem != null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"></a>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
                 <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span th:text="${session.mem.getNickname()}">닉네임</span></h6><a class="dropdown-item" href="mypage.html">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a>
+                    <h6 class="dropdown-header"><span>닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -42,15 +39,15 @@
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="projects"><i class="fas fa-bus me-1"></i><span>SPMIS</span></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li><!-- End: Logo Holder -->
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#" data-bs-target="projects"><span>Project 1</span></a><a class="dropdown-item" href="#"><span>Project 2</span></a><a class="dropdown-item" href="settings.html"><span>Project 3</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-light" href="project" data-bs-target="projects"><span class="text-light">Project 1</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Project 2</span></a><a class="dropdown-item link-light" href="settings.html"><span>Project 3</span></a></div>
         </li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-secondary" href="#"><span class="text-light">Change password</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Change email</span></a><a class="dropdown-item link-light" href="settings" data-bs-target="settings"><span>More</span></a></div>
         </li>
         <li class="nav-item"></li>
     </ul><!-- End: Sidebar -->
@@ -74,12 +71,12 @@
             <div class="container">
                 <div>
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">그룹</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">공개 범위</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1">그룹</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-2">공개 범위</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">프로젝트 설정</a></li>
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane active" role="tabpanel" id="tab-1">
+                        <div class="tab-pane" role="tabpanel" id="tab-1">
                             <div class="d-lg-flex justify-content-lg-end m-2"><button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">invite<br></button></div>
                             <form action="/groupPOST">
                                 <div class="table-responsive">
@@ -130,9 +127,9 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="tab-pane" role="tabpanel" id="tab-2">
+                        <div class="tab-pane active" role="tabpanel" id="tab-2">
                             <p>공개 범위 설정</p>
-                            <form><select class="form-select">
+                            <form><select class="form-select mb-2">
                                     <optgroup label="This is a group">
                                         <option value="1" selected="">Public</option>
                                         <option value="2">private</option>
@@ -164,9 +161,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/tinymce.js"></script>
+    <script src="assets/js/script.min.js"></script>
 </body>
 
 </html>

@@ -7,19 +7,15 @@
     <title>spmis0529</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Navbar-With-Button.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body style="padding-left: 14rem;">
     <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
+        <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-2">
+                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
                         <div class="container">
                             <div class="row">
                                 <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
@@ -29,11 +25,11 @@
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
                 </div>
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="projects">프로젝트</a></li>
-                    <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
                 </ul>
             </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
                 <div class="dropdown-menu">
                     <h6 class="dropdown-header"><span>닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
                 </div>
@@ -43,15 +39,15 @@
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="projects"><i class="fas fa-bus me-1"></i><span>SPMIS</span></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li><!-- End: Logo Holder -->
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#" data-bs-target="projects"><span>Project 1</span></a><a class="dropdown-item" href="#"><span>Project 2</span></a><a class="dropdown-item" href="settings.html"><span>Project 3</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-light" href="project" data-bs-target="projects"><span class="text-light">Project 1</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Project 2</span></a><a class="dropdown-item link-light" href="settings.html"><span>Project 3</span></a></div>
         </li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-secondary" href="#"><span class="text-light">Change password</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Change email</span></a><a class="dropdown-item link-light" href="settings" data-bs-target="settings"><span>More</span></a></div>
         </li>
         <li class="nav-item"></li>
     </ul><!-- End: Sidebar -->
@@ -85,22 +81,22 @@
                             <div class="card-body">
                                 <h4 class="card-title">주제</h4>
                                 <h6 class="text-muted card-subtitle mb-2">작성자</h6>
-                                <form class="mb-2" method="post" action="/meetcommentPOST"><input class="form-control" type="hidden" name="mem_no" th:if="${session.mem!=null}" th:value="${session.mem.getMem_no()}"><input class="form-control" type="hidden" name="bd_no" th:if="${session.mem!=null}" th:value="${articles.getBd_no()}">
+                                <form class="mb-2" method="post" action="/meetcommentPOST"><input class="form-control" type="hidden" name="mem_no" th:if="${session.mem!=null}"><input class="form-control" type="hidden" name="bd_no" th:if="${session.mem!=null}">
                                     <div class="input-group" th:unless="${session.mem==null}"><input class="form-control" type="text" placeholder="의견을 입력하세요" name="content" autocomplete="off"><button class="btn btn-success float-end btn-success" type="submit"><i class="fas fa-paper-plane"></i></button></div>
                                 </form>
                                 <div class="table-responsive">
                                     <table class="table table-fixed">
                                         <tbody>
-                                            <tr th:each="comment, i : ${comments}">
+                                            <tr>
                                                 <td class="p-0">
-                                                    <form action="/commentRemove" method="post"><input class="form-control" type="hidden" name="bd_no" th:value="${articles.getBd_no()}">
+                                                    <form action="/commentRemove" method="post"><input class="form-control" type="hidden" name="bd_no">
                                                         <div class="row p-0 m-0">
-                                                            <div class="col-auto align-self-center p-0"><img class="img-fluid rounded-circle" id="comment-user-img" width="40px" height="40px" alt="프로필이미지" th:src="${comments_user[i.index].getProfile_image()}"></div>
-                                                            <div class="col"><strong th:text="${comments_user[i.index].getNickname()}">닉네임</strong><span class="text-secondary ms-2" th:text="${comment.getComment_date()}">02:05</span>
-                                                                <p class="m-0" th:text="${comment.getContent()}">의견 내용</p>
+                                                            <div class="col-auto align-self-center p-0"><img class="img-fluid rounded-circle" id="comment-user-img" width="40px" height="40px" alt="프로필이미지"></div>
+                                                            <div class="col"><strong>닉네임</strong><span class="text-secondary ms-2">02:05</span>
+                                                                <p class="m-0">의견 내용</p>
                                                             </div>
-                                                            <div class="col-auto align-self-center me-0 pe-0" th:if="${session.mem != null &amp;&amp; session.mem.getMem_no() eq comments_user[i.index].getMem_no()}"><button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
-                                                        </div><input class="form-control" type="hidden" name="comment_no" th:value="${comment.getComment_no()}">
+                                                            <div class="col-auto align-self-center me-0 pe-0" th:if="${session.mem != null"><button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button></div>
+                                                        </div><input class="form-control" type="hidden" name="comment_no">
                                                     </form>
                                                 </td>
                                             </tr>
@@ -133,9 +129,7 @@
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/tinymce.js"></script>
+    <script src="assets/js/script.min.js"></script>
 </body>
 
 </html>

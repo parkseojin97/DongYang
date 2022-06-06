@@ -25,10 +25,14 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Select("SELECT * FROM " + PROJECT + " WHERE user_id=#{user_id}")
 	ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
+	// 모든 프로젝트 목록 불러오기
+	@Select("SELECT * FROM " + PROJECT )
+	ArrayList<ProjectDTO> selectAllProjects();
+	
 	// 새로운 프로젝트 생성
-	@Insert("INSERT INTO " + PROJECT + " VALUES( null, #{project_name}, #{project_des}, "+
-	"now(), #{project_final_date}, #{project_final_expect_date}, #{status_id}, #{privacy_scope_id} )" )
-	void createProject(ProjectDTO project); 
+	@Insert("INSERT INTO " + PROJECT + " VALUES( null, #{project_name}, #{project_des}, "
+			+ "now(), #{project_final_date}, #{proejct_final_expect_date}, #{status_id}, #{privacy_scope_id} )")
+	void createProject(ProjectDTO project);
 	
 	// 프로젝트 삭제
 	@Delete("DELETE FROM " + PROJECT + " WHERE project_id=#{project_id}")
@@ -53,18 +57,19 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
-			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},now(),#{create_user_id}, #{start_user_id}, 0"+
-			"#{project_status}, #{start_date}, #{final_date}, #{final_expect_date})")
+			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},now(),#{create_user_id}, #{start_user_id}, 0"
+			+ "#{project_status}, #{start_date}, #{final_date}, #{final_expect_date})")
 	void createBoard(ProjectBoardDTO board);
-	
+
 	// task 삭제
 	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE board_id=#{board_id}")
 	void deleteBoard(ProjectBoardDTO board);	
 	
 	// 작업 내용 수정
-	@Update("UPDATE " + PROJECTBOARD +" board_subject=#{board_subject}, board_content=#{board_content}, start_user_id=#{start_user_id},"+
-	"views=#{views}, project_status=#{project_status}, start_date=#{start_date}, final_date=#{final_date}, final_expect_date=#{final_expect_date}"+
-			" WHERE board_id=#{board_id}")
+	@Update("UPDATE " + PROJECTBOARD
+			+ " board_subject=#{board_subject}, board_content=#{board_content}, start_user_id=#{start_user_id},"
+			+ "views=#{views}, project_status=#{project_status}, start_date=#{start_date}, final_date=#{final_date}, final_expect_date=#{final_expect_date}"
+			+ " WHERE board_id=#{board_id}")
 	void updateBoard(ProjectBoardDTO board);
 	
 	// 프로젝트 룰
@@ -76,17 +81,17 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Insert("INSERT INTO " + PROJECTRULE + " VALUES (#{project_id} ,#{rule}) ")
 	void createRule(ProjectRuleDTO rule);
 	
+	// 프로젝트 룰 삭제
 	@Delete("DELETE FROM " + PROJECTRULE + " WHERE project_id=#{project_id} and rule=#{rule}")
-	void deleteRule(ProjectRuleDTO rule);
-	
+	void deleteRule(ProjectRuleDTO rule);	
 	
 	// 댓글
 	// 태스크별 댓글 불러오기
-	@Select("Select * FROM " + BOARDCOMMENT + " where board_id=#{board} ")
+	@Select("Select * FROM " + BOARDCOMMENT + " where board_id=#{board_id} ")
 	ArrayList<BoardCommentDTO> comment (ProjectBoardDTO board);
 	
 	// 댓글 입력
-	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES (null, #{board_id}, #{user_id), #{comment_content} )")
+	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES (null, #{board_id} ,#{user_id}, #{comment_content}) ")
 	void createComment(BoardCommentDTO comment); 
 	
 	// 댓글 삭제
@@ -98,12 +103,16 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<ProjectJoinDTO> group(ProjectDTO project);
 	
 	// 그룹원 추가하기
-	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (#{project_id}, #{user_id}, #{role} )")
+	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (#{project_id}, #{user_id}, #{role}, #{join_status} )")
 	void insertGroup(ProjectJoinDTO join);
 	
 	// 그룹원 삭제
 	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=#{project_id} and user_id=#{user_id}")
 	void deleteGroup(ProjectJoinDTO join);
+	
+	// 그룹원 요청 처리
+	@Update("UPDATE " + PROJECTJOIN + "join_status=#{join_status} WHERE user_id=#{user_id}")		
+	void updateGroup(ProjectJoinDTO join);
 	
 	// 회의
 	// 호의 목록 불러오기
@@ -111,7 +120,8 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<MeetingDTO> meeting(ProjectDTO project);
 	
 	// 회의 일정 생성
-	@Insert("INSERT INTO " + MEETING + " VALUES (null, #{meeting_title}, #{meeting_start_date}, #{meeting_end_date}, #{project_id})")
+	@Insert("INSERT INTO " + MEETING
+			+ " VALUES (null, #{meeting_title}, #{meeting_start_date}, #{meeting_end_date}, #{project_id})")
 	void createMeeting(MeetingDTO meeting);
 	
 	// 회의 정보 삭제

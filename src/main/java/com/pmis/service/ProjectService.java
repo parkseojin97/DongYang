@@ -46,7 +46,7 @@ public interface ProjectService {
 	public boolean createBoard(ProjectBoardDTO board);		
 	
 	// task 삭제
-	public boolean deleteBoard(ProjectStatusDTO status);		
+	public boolean deleteBoard(ProjectBoardDTO board);		
 	
 	// task 작업 내용 수정
 	public boolean updateBoard(ProjectBoardDTO board);

@@ -45,7 +45,7 @@ public interface ProjectService {
 	
 	
 	// 프로젝트 task(board) 불러오기 
-	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO proejct);		
+	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project);		
 	
 	// 새로운 task(board) 생성
 	public boolean createBoard(ProjectBoardDTO board);		
@@ -82,7 +82,7 @@ public interface ProjectService {
 	
 	// 그룹
 	// 그룹원 목록 불러오기
-	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO proejct);
+	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project);
 	
 	// 그룹원 추가
 	public boolean insertGroup(ProjectJoinDTO join); 
@@ -95,7 +95,7 @@ public interface ProjectService {
 	
 	// 회의
 	// 회의 목록 불러오기
-	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO proejct);
+	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO project);
 	
 	// 미팅 일정 생성
 	public boolean createMeeting(MeetingDTO meeting);

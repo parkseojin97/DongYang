@@ -35,10 +35,87 @@ public class ProjectController {
 	
 	// 유저정보 가져와서 (session에서 받기) 검색해서 프로젝트 리스트 가져오기 
 	@GetMapping("projects")
-	public String projects(Model model) {
+	public String projects(Model model, HttpServletRequest req, HttpServletResponse res) {
+		session = req.getSession();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");	
+		ArrayList<ProjectDTO> projects = projectService.selectProjects(userInfo);
+		model.addAttribute("projects", projects);
+		
 		return "projects";
 	}
 	
+	// 프로젝트 상세 페이지
+	@GetMapping("project")
+	public String selectProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {
+		// tasks : 칸반 종류, boards : 칸반안의 게시글 목록, rules : 프로젝트 룰 목록, joins : 프로젝트 참여인원, project : 받아온 프로젝트 
+		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
+		ArrayList<ProjectBoardDTO> boards = projectService.selectBoards(project);
+		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
+		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
+		
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("boards", boards);
+		model.addAttribute("rules", rules);
+		model.addAttribute("joins", joins);
+		model.addAttribute("project", project);
+		
+		return "project";
+	}
+	
+	//프로젝트 생성
+	@PostMapping("createproject")
+	public void createProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res)
+			throws IOException{
+		session = req.getSession();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	ProjectJoinDTO join = null;
+    	join.setUser_email(userInfo.getUser_email());
+    	join.setProject_id(project.getProject_id());
+    	join.setRole("생성자");
+    	join.setJoin_status("admin");
+    	
+    	if(projectService.createProject(project)) {
+    		projectService.insertGroup(join);
+			out.println("<script>");
+			out.println("alert('프로젝트 생성완료');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+    	} else {
+    		out.println("<script>");
+			out.println("alert('프로젝트 생성실패');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+    	}
+	}
+	
+	//프로젝트 삭제
+	@PostMapping("deleteproject")
+	public void deleteProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res)
+			throws IOException{
+		
+		session = req.getSession();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
+    	if(userInfo.getUser_email().equals(joins)) {
+    	
+		if(projectService.deleteProject(project)) {
+			out.println("<script>");
+			out.println("alert('프로젝트 삭제완료');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+    	} else {
+    		out.println("<script>");
+			out.println("alert('프로젝트 삭제실패');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+    	}
+    	}
+	}
+
 	// 프로젝트 세팅 화면 이동
 	@GetMapping("settings")
 	public String settings(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {		
@@ -137,23 +214,6 @@ public class ProjectController {
 		}
 	}
 
-	// 프로젝트 상세 페이지
-	@GetMapping("project")
-	public String selectProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {
-		// tasks : 칸반 종류, boards : 칸반안의 게시글 목록, rules : 프로젝트 룰 목록, joins : 프로젝트 참여인원, project : 받아온 프로젝트 
-		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
-		ArrayList<ProjectBoardDTO> boards = projectService.selectBoards(project);
-		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
-		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
-		
-		model.addAttribute("tasks", tasks);
-		model.addAttribute("boards", boards);
-		model.addAttribute("rules", rules);
-		model.addAttribute("joins", joins);
-		model.addAttribute("project", project);
-		
-		return "project";
-	}
 			
 	@SuppressWarnings("null")
 	@GetMapping("dashboard")

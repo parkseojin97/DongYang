@@ -32,6 +32,7 @@ import com.pmis.service.UserService;
 
 @Controller
 public class UserController {
+	
 	@Autowired
 	private UserService userService;
 
@@ -198,7 +199,7 @@ public class UserController {
 		UserDTO user_no = (UserDTO) session.getAttribute("mem");
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
-		user.setUser_id(user_no.getUser_id());
+		user.setUser_email(user_no.getUser_email());
 
 		if (userService.modifyAccount(user)) {
 			UserDTO userInfo = (UserDTO) userService.getUser(user);

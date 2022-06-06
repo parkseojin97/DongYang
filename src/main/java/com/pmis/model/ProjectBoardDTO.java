@@ -11,8 +11,8 @@ public class ProjectBoardDTO {
 	private String board_subject;
 	private String board_content;
 	private Date board_create_date;
-	private String create_user_id;
-	private String start_user_id;
+	private String create_user_email;
+	private String start_user_email;
 	private int views;
 	private String project_status;
 	private Date start_date;

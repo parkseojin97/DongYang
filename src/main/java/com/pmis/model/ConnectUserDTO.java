@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ConnectUserDTO {
 	private int meeting_id;
-	private String user_id;
+	private String user_email;
 	
 }

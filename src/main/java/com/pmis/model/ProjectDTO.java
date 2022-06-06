@@ -5,7 +5,6 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-@SuppressWarnings("unused")
 public class ProjectDTO {
 	private int project_id;
 	private String project_name;

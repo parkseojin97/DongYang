@@ -3,6 +3,7 @@ package com.pmis.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.pmis.mapper.ProjectMapper;
 import com.pmis.model.BoardCommentDTO;
@@ -16,198 +17,225 @@ import com.pmis.model.ProjectRuleDTO;
 import com.pmis.model.ProjectStatusDTO;
 import com.pmis.model.UserDTO;
 
+@Service
 public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
-	private ProjectMapper proejctMapper; 
+	private ProjectMapper projectMapper; 
 	
 	@Override
 	public ArrayList<ProjectDTO> selectProjects(UserDTO user) {
 		// TODO Auto-generated method stub
-		return proejctMapper.selectProjects(user);
+		return projectMapper.selectProjects(user);
+	}
+	@Override
+	public ArrayList<ProjectDTO> selectProjects() {
+		// TODO Auto-generated method stub
+		return projectMapper.selectAllProjects();
 	}
 
 	@Override
 	public boolean createProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		proejctMapper.createProject(project);
+		projectMapper.createProject(project);
 		return true;
 	}
 
 	@Override
 	public boolean deleteProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteProject(project);
+		projectMapper.deleteProject(project);
 		return true;
 	}
 
+	@Override 
+	public boolean createDefaultKanban(ProjectDTO project) {
+		ProjectStatusDTO kanban = new ProjectStatusDTO();
+		kanban.setProject_id(project.getProject_id());
+		kanban.setProject_status("TO DO");		
+		projectMapper.createBoardStatus(kanban);
+		kanban.setProject_status("DOING");		
+		projectMapper.createBoardStatus(kanban);
+		kanban.setProject_status("DONE");		
+		projectMapper.createBoardStatus(kanban);
+		
+		return true;
+	}
+	
 	@Override
 	public ArrayList<ProjectStatusDTO> selectBoardStatus(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		return proejctMapper.boardStatus(project);
+		return projectMapper.boardStatus(project);
 	}
 
 	@Override
 	public boolean createBoardStatus(ProjectStatusDTO status) {
 		// TODO Auto-generated method stub
-		proejctMapper.createBoardStatus(status);
+		projectMapper.createBoardStatus(status);
 		return true;
 	}
 
 	@Override
 	public boolean deleteBoardStatus(ProjectStatusDTO status) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteBoardStatus(status);
+		projectMapper.deleteBoardStatus(status);
 		return false;
 	}
 
 	@Override
 	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO proejct) {
 		// TODO Auto-generated method stub
-		proejctMapper.boards(proejct);
+		projectMapper.boards(proejct);
 		return null;
 	}
 
 	@Override
 	public boolean createBoard(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub
-		proejctMapper.createBoard(board);
+		projectMapper.createBoard(board);
 		return false;
 	}
 
 	@Override
 	public boolean deleteBoard(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteBoard(board);
+		projectMapper.deleteBoard(board);
 		return false;
 	}
 
 	@Override
 	public boolean updateBoard(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub
-		proejctMapper.updateBoard(board);
+		projectMapper.updateBoard(board);
 		return false;
 	}
 
 	@Override
 	public ArrayList<ProjectRuleDTO> selectRule(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		proejctMapper.rule(project);
+		projectMapper.rule(project);
 		return null;
 	}
 
 	@Override
 	public boolean createRule(ProjectRuleDTO rule) {
 		// TODO Auto-generated method stub
-		proejctMapper.createRule(rule);
+		projectMapper.createRule(rule);
 		return false;
 	}
 
 	@Override
 	public boolean deleteRule(ProjectRuleDTO rule) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteRule(rule);
+		projectMapper.deleteRule(rule);
 		return false;
 	}
 
 	@Override
 	public ArrayList<BoardCommentDTO> selectComment(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub
-		proejctMapper.comment(board);
+		projectMapper.comment(board);
 		return null;
 	}
 
 	@Override
 	public boolean createComment(BoardCommentDTO comment) {
 		// TODO Auto-generated method stub
-		proejctMapper.createComment(comment);
+		projectMapper.createComment(comment);
 		return false;
 	}
 
 	@Override
 	public boolean deleteComment(BoardCommentDTO comment) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteComment(comment);
+		projectMapper.deleteComment(comment);
 		return false;
 	}
 
 	@Override
 	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO proejct) {
 		// TODO Auto-generated method stub		
-		return proejctMapper.group(proejct);
+		return projectMapper.group(proejct);
 	}
 
 	@Override
-	public boolean inviteUser(ProjectJoinDTO join) {
+	public boolean insertGroup(ProjectJoinDTO join) {
 		// TODO Auto-generated method stub
-		proejctMapper.insertGroup(join);
+		projectMapper.insertGroup(join);
 		return true;
 	}
 
 	@Override
 	public boolean deleteProjectUser(ProjectJoinDTO join) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteGroup(join);
+		projectMapper.deleteGroup(join);
+		return true;
+	}
+	
+	@Override
+	public boolean updateGroup(ProjectJoinDTO join) {
+		// TODO Auto-generated method stub
+		projectMapper.updateGroup(join);
 		return true;
 	}
 
 	@Override
 	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO proejct) {
 		// TODO Auto-generated method stub
-		return proejctMapper.meeting(proejct);
+		return projectMapper.meeting(proejct);
 	}
 
 	@Override
 	public boolean createMeeting(MeetingDTO meeting) {
 		// TODO Auto-generated method stub
-		proejctMapper.createMeeting(meeting);
+		projectMapper.createMeeting(meeting);
 		return true;
 	}
 
 	@Override
 	public boolean deleteMeeting(MeetingDTO meeting) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteMeeting(meeting);
+		projectMapper.deleteMeeting(meeting);
 		return true;
 	}
 
 	@Override
 	public ArrayList<MeetingLogDTO> selectMeetingLog(MeetingDTO meetingLog) {
 		// TODO Auto-generated method stub		
-		return proejctMapper.meetingLog(meetingLog);
+		return projectMapper.meetingLog(meetingLog);
 	}
 
 	@Override
 	public boolean insertMeetingLog(MeetingLogDTO meetingLog) {
 		// TODO Auto-generated method stub
-		proejctMapper.insertMeetingLog(meetingLog);
+		projectMapper.insertMeetingLog(meetingLog);
 		return true;
 	}
 
 	@Override
 	public boolean deleteMeetingLog(MeetingLogDTO meetingLog) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteMeetingLog(meetingLog);
+		projectMapper.deleteMeetingLog(meetingLog);
 		return true;
 	}
 
 	@Override
 	public ArrayList<MeetingLogChatDTO> selectMeetingLogChat(MeetingLogDTO meetinglogDTO) {
 		// TODO Auto-generated method stub		
-		return proejctMapper.meetingLogChat(meetinglogDTO);
+		return projectMapper.meetingLogChat(meetinglogDTO);
 	}
 
 	@Override
 	public boolean insertMeetingChat(MeetingLogChatDTO meetinglogDTO) {
 		// TODO Auto-generated method stub
-		proejctMapper.insertMeetingLogChat(meetinglogDTO);
+		projectMapper.insertMeetingLogChat(meetinglogDTO);
 		return true;
 	}
 
 	@Override
 	public boolean deleteMeetingChat(MeetingLogChatDTO meetinglogDTO) {
 		// TODO Auto-generated method stub
-		proejctMapper.deleteMeetingChat(meetinglogDTO);
+		projectMapper.deleteMeetingChat(meetinglogDTO);
 		return true;
 	}
 

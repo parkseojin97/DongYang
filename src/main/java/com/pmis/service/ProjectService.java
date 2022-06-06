@@ -21,12 +21,17 @@ public interface ProjectService {
 	// 프로젝트 목록 불러오기
 	public ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
+	// 모든 프로젝트 목록 불러오기
+	public ArrayList<ProjectDTO> selectProjects();
+	
 	// 새로운 프로젝트 생성
 	public boolean createProject(ProjectDTO project); 
 	
 	// 프로젝트 삭제
 	public boolean deleteProject(ProjectDTO project);
 	
+	// default칸반 TO DO, DOING, DONE 칸반 생성
+	public boolean createDefaultKanban(ProjectDTO project);
 	
 	// task
 	// task 종류(칸반) 불러오기
@@ -80,11 +85,13 @@ public interface ProjectService {
 	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO proejct);
 	
 	// 그룹원 추가
-	public boolean inviteUser(ProjectJoinDTO join); 
+	public boolean insertGroup(ProjectJoinDTO join); 
 	
 	// 그룹원 삭제
 	public boolean deleteProjectUser(ProjectJoinDTO join);
 	
+	// 그룹원 요청 처리
+	public boolean updateGroup(ProjectJoinDTO join);
 	
 	// 회의
 	// 회의 목록 불러오기

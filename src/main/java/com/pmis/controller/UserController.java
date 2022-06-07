@@ -51,7 +51,7 @@ public class UserController {
 		session = req.getSession();
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
-
+		System.out.println(user);
 		UserDTO userInfo = userService.getUser(user);
 		if (userInfo == null) {
 			out.println("<script>");

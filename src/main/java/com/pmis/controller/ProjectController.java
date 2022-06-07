@@ -38,8 +38,8 @@ public class ProjectController {
 	public String projects(Model model, HttpServletRequest req, HttpServletResponse res) {
 		session = req.getSession();
 		UserDTO userInfo = (UserDTO) session.getAttribute("mem");	
-		ArrayList<ProjectDTO> projects = projectService.selectProjects(userInfo);
-		model.addAttribute("projects", projects);
+		ArrayList<ProjectDTO> projectList = projectService.selectProjects(userInfo);
+		model.addAttribute("projectList", projectList);
 		
 		return "projects";
 	}
@@ -70,14 +70,18 @@ public class ProjectController {
 		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
 		res.setContentType("text/html; charset=UTF-8");
     	PrintWriter out = res.getWriter();
-    	ProjectJoinDTO join = null;
-    	join.setUser_email(userInfo.getUser_email());
-    	join.setProject_id(project.getProject_id());
-    	join.setRole("생성자");
-    	join.setJoin_status("admin");
+    	
+    	ProjectJoinDTO join = new ProjectJoinDTO();    	
+    	
     	
     	if(projectService.createProject(project)) {
+    		join.setUser_email(userInfo.getUser_email());
+        	join.setProject_id(projectService.selectLatestProject().getProject_id());
+        	join.setRole("관리자");
+        	join.setJoin_status("admin");
+        	
     		projectService.insertGroup(join);
+    		
 			out.println("<script>");
 			out.println("alert('프로젝트 생성완료');");
 			out.println("location.href='projects';");

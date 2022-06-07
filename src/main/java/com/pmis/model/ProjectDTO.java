@@ -12,7 +12,6 @@ public class ProjectDTO {
 	private Date project_create_date;
 	private Date project_final_date;
 	private Date project_final_expect_date;
-	private int status_id;
 	private int privacy_scope;
 
 }

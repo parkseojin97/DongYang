@@ -38,7 +38,13 @@ public class ProjectServiceImpl implements ProjectService {
 	public boolean createProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
 		projectMapper.createProject(project);
+		
 		return true;
+	}
+	
+	@Override
+	public ProjectDTO selectLatestProject() {
+		return projectMapper.selectProject();
 	}
 
 	@Override

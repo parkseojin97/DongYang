@@ -30,6 +30,9 @@ public interface ProjectService {
 	// 프로젝트 삭제
 	public boolean deleteProject(ProjectDTO project);
 	
+	// 프로젝트 조회
+	public ProjectDTO selectLatestProject();
+	
 	// default칸반 TO DO, DOING, DONE 칸반 생성
 	public boolean createDefaultKanban(ProjectDTO project);
 	

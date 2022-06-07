@@ -22,43 +22,48 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 프로젝트 
 	// 참여 프로젝트 목록 불러오기
-	@Select("SELECT p.project_id, project_name, project_des, project_create_date, project_final_date, project_final_expect_date, status_id, privacy_scope"
+	@Select("SELECT p.project_id, project_name, project_des, project_create_date, project_final_date, project_final_expect_date, privacy_scope"
 			+ " FROM " + PROJECT + " p, " + PROJECTJOIN + " pj WHERE p.project_id = pj.project_id and pj.user_email = #{user_email};")
 	ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
 	// 모든 프로젝트 목록 불러오기
 	@Select("SELECT * FROM " + PROJECT )
-	ArrayList<ProjectDTO> selectAllProjects();
+	ArrayList<ProjectDTO> selectAllProjects();	
 	
 	// 새로운 프로젝트 생성
 	@Insert("INSERT INTO " + PROJECT + " VALUES( null, #{project_name}, #{project_des}, "
-			+ "now(), #{project_final_date}, #{proejct_final_expect_date}, #{status_id}, #{privacy_scope_id} )")
+			+ "now(), null, null, #{privacy_scope} )")
 	void createProject(ProjectDTO project);
 	
+	
+	// 프로젝트 조회
+	@Select("Select * from " + PROJECT + " order by project_id desc limit 1")
+	ProjectDTO selectProject();
+	
 	// 프로젝트 삭제
-	@Delete("DELETE FROM " + PROJECT + " WHERE project_id=#{project_id}")
+	@Delete("DELETE FROM " + PROJECT + " WHERE project_id=${project_id}")
 	void deleteProject(ProjectDTO project);
 	
 	// task
 	// task 종류(칸반) 불러오기
-	@Select("SELECT * FROM " + PROJECTSTATUS + " where project_id=#{project_id}")
+	@Select("SELECT * FROM " + PROJECTSTATUS + " where project_id=${project_id}")
 	ArrayList<ProjectStatusDTO> boardStatus(ProjectDTO project);	
 	
 	// 새로운 칸반 생성
-	@Insert("INSERT INTO " + PROJECTSTATUS + " VALUES( #{project_status}, #{project_id} ) ")
+	@Insert("INSERT INTO " + PROJECTSTATUS + " VALUES( #{project_status}, ${project_id} ) ")
 	void createBoardStatus(ProjectStatusDTO status);
 	
 	// 칸반 삭제
-	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE project_id=#{project_id} and project_status=#{project_status}")
+	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE project_id=${project_id} and project_status=#{project_status}")
 	void deleteBoardStatus(ProjectStatusDTO status);
 	
 	// 프로젝트 task(board) 불러오기 
-	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=#{project_id} ORDER BY board_id DESC")
+	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=${project_id} ORDER BY board_id DESC")
 	ArrayList<ProjectBoardDTO> boards(ProjectDTO project);
 	
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
-			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0"
+			+ " VALUES(null,${project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0"
 			+ "#{project_status}, #{start_date}, #{final_date}, #{final_expect_date})")
 	void createBoard(ProjectBoardDTO board);
 
@@ -75,15 +80,15 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 프로젝트 룰
 	// 프로젝트 룰 불러오기
-	@Select("SELECT * FROM " + PROJECTRULE + " WHERE project_id=#{project_id}")
+	@Select("SELECT * FROM " + PROJECTRULE + " WHERE project_id=${project_id}")
 	ArrayList<ProjectRuleDTO> rule(ProjectDTO project);
 	
 	// 프로젝트 룰 생성
-	@Insert("INSERT INTO " + PROJECTRULE + " VALUES (#{project_id} ,#{rule}) ")
+	@Insert("INSERT INTO " + PROJECTRULE + " VALUES (${project_id} ,#{rule}) ")
 	void createRule(ProjectRuleDTO rule);
 	
 	// 프로젝트 룰 삭제
-	@Delete("DELETE FROM " + PROJECTRULE + " WHERE project_id=#{project_id} and rule=#{rule}")
+	@Delete("DELETE FROM " + PROJECTRULE + " WHERE project_id=${project_id} and rule=#{rule}")
 	void deleteRule(ProjectRuleDTO rule);	
 	
 	// 댓글
@@ -100,15 +105,15 @@ public interface ProjectMapper extends DefaultDBInfo {
 	void deleteComment(BoardCommentDTO comment);
 	
 	// 그룹원 목록 불러오기
-	@Select("SELECT * FROM " + PROJECTJOIN + " where project_id=#{project_id}") 
+	@Select("SELECT * FROM " + PROJECTJOIN + " where project_id=${project_id}") 
 	ArrayList<ProjectJoinDTO> group(ProjectDTO project);
 	
 	// 그룹원 추가하기
-	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (#{project_id}, #{user_email}, #{role}, #{join_status} )")
+	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (${project_id}, #{user_email}, #{role}, #{join_status} )")
 	void insertGroup(ProjectJoinDTO join);
 	
 	// 그룹원 삭제
-	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=#{project_id} and user_email=#{user_email}")
+	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=${project_id} and user_email=#{user_email}")
 	void deleteGroup(ProjectJoinDTO join);
 	
 	// 그룹원 요청 처리
@@ -117,18 +122,17 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 회의
 	// 호의 목록 불러오기
-	@Select("SELECT * FROM " + MEETING + " WHERE project_id=#{project_id}")
+	@Select("SELECT * FROM " + MEETING + " WHERE project_id=${project_id}")
 	ArrayList<MeetingDTO> meeting(ProjectDTO project);
 	
 	// 회의 일정 생성
 	@Insert("INSERT INTO " + MEETING
-			+ " VALUES (null, #{meeting_title}, #{meeting_start_date}, #{meeting_end_date}, #{project_id})")
+			+ " VALUES (null, #{meeting_title}, #{meeting_start_date}, #{meeting_end_date}, ${project_id})")
 	void createMeeting(MeetingDTO meeting);
 	
 	// 회의 정보 삭제
 	@Delete("DELETE FROM " + MEETING + " WHERE meeting_id=#{meeting_id}")
 	void deleteMeeting(MeetingDTO meeting);
-	
 	
 	// 회의 주제 불러오기
 	@Select("SELECT * FROM " + MEETINGLOG + " WHERE meeting_id=#{meeting_id}")

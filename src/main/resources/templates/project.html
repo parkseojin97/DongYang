@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0529</title>
+    <title>spmis0606</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -13,10 +13,10 @@
 </head>
 
 <body style="padding-left: 14rem;">
-    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-2">
-                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
+    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4" xmlns:th="http://www.thymeleaf.org/">
+        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
                         <div class="container">
                             <div class="row">
                                 <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
@@ -26,13 +26,13 @@
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
                 </div>
                 <ul class="navbar-nav">
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link active" href="projects">프로젝트</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
                 </ul>
             </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2" th:if="${session.mem!=null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
                 <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span>닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
+                    <h6 class="dropdown-header"><span th:text="${session.mem.getUser_name()}">닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -40,21 +40,21 @@
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="projects"><i class="fas fa-bus me-1"></i><span>SPMIS</span></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li><!-- End: Logo Holder -->
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-light" href="project" data-bs-target="projects"><span class="text-light">Project 1</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Project 2</span></a><a class="dropdown-item link-light" href="settings.html"><span>Project 3</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn" th:if="${projectList != null}"><a class="dropdown-item" th:each="project : ${projectList}" th:href="@{/project/${project.getProject_id()}}"><span class="text-white" th:text="${project.getProject_name()}" th:href="${project.getProject_id()}">Project 1</span></a></div>
         </li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-secondary" href="#"><span class="text-light">Change password</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Change email</span></a><a class="dropdown-item link-light" href="settings" data-bs-target="settings"><span>More</span></a></div>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Project Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
         </li>
         <li class="nav-item"></li>
     </ul><!-- End: Sidebar -->
     <div class="container mb-4 ms-2">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#"><span>프로젝트명</span></a></li>
+            <li class="breadcrumb-item"><a href="#"><span th:text="${project.getProject_name()}">프로젝트명</span></a></li>
             <li class="breadcrumb-item"><a href="#"><span id="bc_item_title">페이지명</span><script>
     let webTitle=document.title;
     document.querySelector("#bc_item_title").textContent=webTitle;
@@ -335,7 +335,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="text-end"><button class="btn btn-primary text-center mb-4" type="button" data-bs-target="#modal_add_rule" data-bs-toggle="modal">추가</button></div>
+            <div class="text-end"><button class="btn btn-primary text-center mb-4" type="button">추가</button></div>
         </div>
         <div class="modal fade" role="dialog" tabindex="-1" id="modal_add_board">
             <div class="modal-dialog modal-xl" role="document">
@@ -464,20 +464,6 @@
                                 </div>
                                 <div class="card-body d-lg-flex justify-content-lg-end pt-2 p-1 pb-0"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
                             </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" role="dialog" tabindex="-1" id="modal_add_rule">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">프로젝트 룰 추가하기</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form><input class="form-control mb-2" type="text">
-                            <div class="d-xl-flex justify-content-xl-end"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Save</button></div>
                         </form>
                     </div>
                 </div>

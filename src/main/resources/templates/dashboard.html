@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0529</title>
+    <title>spmis0606</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -12,10 +12,10 @@
 </head>
 
 <body style="padding-left: 14rem;">
-    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-2">
-                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
+    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4" xmlns:th="http://www.thymeleaf.org/">
+        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
                         <div class="container">
                             <div class="row">
                                 <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
@@ -25,13 +25,13 @@
                     <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
                 </div>
                 <ul class="navbar-nav">
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link active" href="projects">프로젝트</a></li>
+                    <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
                 </ul>
             </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
+            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2" th:if="${session.mem!=null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
                 <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span>닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
+                    <h6 class="dropdown-header"><span th:text="${session.mem.getUser_name()}">닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
                 </div>
             </div>
         </div>
@@ -39,21 +39,21 @@
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="projects"><i class="fas fa-bus me-1"></i><span>SPMIS</span></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li><!-- End: Logo Holder -->
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-light" href="project" data-bs-target="projects"><span class="text-light">Project 1</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Project 2</span></a><a class="dropdown-item link-light" href="settings.html"><span>Project 3</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn" th:if="${projectList != null}"><a class="dropdown-item" th:each="project : ${projectList}" th:href="@{/project/${project.getProject_id()}}"><span class="text-white" th:text="${project.getProject_name()}" th:href="${project.getProject_id()}">Project 1</span></a></div>
         </li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
+        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item link-secondary" href="#"><span class="text-light">Change password</span></a><a class="dropdown-item link-light" href="#"><span class="text-light">Change email</span></a><a class="dropdown-item link-light" href="settings" data-bs-target="settings"><span>More</span></a></div>
+            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
         </li>
         <li class="nav-item"></li>
     </ul><!-- End: Sidebar -->
     <div class="container mb-4 ms-2">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#"><span>프로젝트명</span></a></li>
+            <li class="breadcrumb-item"><a href="#"><span th:text="${project.getProject_name()}">프로젝트명</span></a></li>
             <li class="breadcrumb-item"><a href="#"><span id="bc_item_title">페이지명</span><script>
     let webTitle=document.title;
     document.querySelector("#bc_item_title").textContent=webTitle;
@@ -71,7 +71,7 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">To do</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Doing</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Done</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3" th:text="${board.getBoard_subject()}">Done</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" role="tabpanel" id="tab-1">
@@ -81,17 +81,15 @@
                                             <thead>
                                                 <tr>
                                                     <th class="col-md-3">project</th>
-                                                    <th class="col-md-9">업무 내용</th>
+                                                    <th class="col-md-6">업무 내용</th>
+                                                    <th class="col-md-2">마감 시간</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td><a href="#">프로젝트 명1</a></td>
-                                                    <td>Cell 2</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="#">프로젝트명 2</a></td>
-                                                    <td>Cell 4</td>
+                                                <tr th:each="board : ${boards}" th:if="${board.getProject_status() == &quot;TO DO&quot;}">
+                                                    <td><a th:href="@{/project/(project_id=${board.getProject_id())}}" th:text="${board.getProject_id()}">프로젝트 명1</a></td>
+                                                    <td th:text="${board.getBoard_subject()}">Cell 2</td>
+                                                    <td th:text="${board.getFinal_expect_date()}">Cell 3</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -104,41 +102,38 @@
                                             <thead>
                                                 <tr>
                                                     <th class="col-md-3">proejct</th>
-                                                    <th class="col-md-9">업무</th>
+                                                    <th class="col-md-6">업무</th>
+                                                    <th class="col-md-3">Column 3</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Cell 1</td>
-                                                    <td>Cell 2</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Cell 3</td>
-                                                    <td>Cell 4</td>
+                                                    <td><a href="#">Link</a></td>
+                                                    <td th:text="${board.getBoard_subject()}">Cell 2</td>
+                                                    <td th:text="${board.getFinal_expect_date()}">Cell 3</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 <div class="tab-pane" role="tabpanel" id="tab-3">
-                                    <p class="mt-2">완료한 업무 목록</p>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
                                                 <tr>
                                                     <th class="col-md-3">project</th>
-                                                    <th class="col-md-9">업무</th>
+                                                    <th class="col-md-6">업무</th>
+                                                    <th class="col-md-3">Column 3</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>Cell 1</td>
+                                                    <td><a href="#">Link</a></td>
                                                     <td>Cell 2</td>
+                                                    <td th:text="${board.getFinal_expect_date()}">Cell 3</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Cell 3</td>
-                                                    <td>Cell 4</td>
-                                                </tr>
+                                                <tr></tr>
+                                                <tr></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -152,11 +147,11 @@
                         <h4 class="card-title">내 프로젝트 목록</h4>
                         <div>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-4"><strong>진행중인 프로젝트</strong><br><br></a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5">종료한 프로젝트</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4"><strong>진행중인 프로젝트</strong><br><br></a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-5">종료한 프로젝트</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" role="tabpanel" id="tab-4">
+                                <div class="tab-pane" role="tabpanel" id="tab-4">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -174,17 +169,11 @@
                                                     <td>Cell 3</td>
                                                     <td>Cell 4</td>
                                                 </tr>
-                                                <tr>
-                                                    <td><a href="#">프로젝트 명2</a></td>
-                                                    <td>Cell 4</td>
-                                                    <td>Cell 3</td>
-                                                    <td>Cell 4</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="tab-pane" role="tabpanel" id="tab-5">
+                                <div class="tab-pane active" role="tabpanel" id="tab-5">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -202,12 +191,6 @@
                                                     <td>Cell 3</td>
                                                     <td>Cell 4</td>
                                                 </tr>
-                                                <tr>
-                                                    <td><a href="#">프로젝트 명2</a></td>
-                                                    <td>Cell 4</td>
-                                                    <td>Cell 3</td>
-                                                    <td>Cell 4</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -221,11 +204,11 @@
                         <h4 class="card-title">회의&nbsp;</h4>
                         <div>
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-6">예정된 회의</a></li>
-                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-7">지난 회의록</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-6">예정된 회의</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-7">지난 회의록</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane" role="tabpanel" id="tab-6">
+                                <div class="tab-pane active" role="tabpanel" id="tab-6">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -241,16 +224,11 @@
                                                     <td>Cell 2</td>
                                                     <td>Cell 3</td>
                                                 </tr>
-                                                <tr>
-                                                    <td><a href="#">프로젝트 명2</a></td>
-                                                    <td>Cell 4</td>
-                                                    <td>Cell 3</td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div class="tab-pane active" role="tabpanel" id="tab-7">
+                                <div class="tab-pane" role="tabpanel" id="tab-7">
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead>
@@ -264,11 +242,6 @@
                                                 <tr>
                                                     <td><a href="#">프로젝트 명3</a></td>
                                                     <td>Cell 2</td>
-                                                    <td>Cell 3</td>
-                                                </tr>
-                                                <tr>
-                                                    <td><a href="#">프로젝트 명4</a></td>
-                                                    <td>Cell 4</td>
                                                     <td>Cell 3</td>
                                                 </tr>
                                             </tbody>

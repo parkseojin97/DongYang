@@ -21,8 +21,9 @@ import com.pmis.model.UserDTO;
 public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 프로젝트 
-	// 프로젝트 목록 불러오기
-	@Select("SELECT * FROM " + PROJECT + " WHERE user_id=#{user_id}")
+	// 참여 프로젝트 목록 불러오기
+	@Select("SELECT p.project_id, project_name, project_des, project_create_date, project_final_date, project_final_expect_date, status_id, privacy_scope"
+			+ " FROM " + PROJECT + " p, " + PROJECTJOIN + " pj WHERE p.project_id = pj.project_id and pj.user_email = #{user_email};")
 	ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
 	// 모든 프로젝트 목록 불러오기
@@ -57,7 +58,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
-			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},now(),#{create_user_id}, #{start_user_id}, 0"
+			+ " VALUES(null,#{project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0"
 			+ "#{project_status}, #{start_date}, #{final_date}, #{final_expect_date})")
 	void createBoard(ProjectBoardDTO board);
 
@@ -67,7 +68,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// 작업 내용 수정
 	@Update("UPDATE " + PROJECTBOARD
-			+ " board_subject=#{board_subject}, board_content=#{board_content}, start_user_id=#{start_user_id},"
+			+ " board_subject=#{board_subject}, board_content=#{board_content}, start_user_email=#{start_user_email},"
 			+ "views=#{views}, project_status=#{project_status}, start_date=#{start_date}, final_date=#{final_date}, final_expect_date=#{final_expect_date}"
 			+ " WHERE board_id=#{board_id}")
 	void updateBoard(ProjectBoardDTO board);
@@ -91,7 +92,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<BoardCommentDTO> comment (ProjectBoardDTO board);
 	
 	// 댓글 입력
-	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES (null, #{board_id} ,#{user_id}, #{comment_content}) ")
+	@Insert("INSERT INTO " + BOARDCOMMENT + " VALUES (null, #{board_id} ,#{user_email}, #{comment_content}) ")
 	void createComment(BoardCommentDTO comment); 
 	
 	// 댓글 삭제
@@ -103,15 +104,15 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<ProjectJoinDTO> group(ProjectDTO project);
 	
 	// 그룹원 추가하기
-	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (#{project_id}, #{user_id}, #{role}, #{join_status} )")
+	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (#{project_id}, #{user_email}, #{role}, #{join_status} )")
 	void insertGroup(ProjectJoinDTO join);
 	
 	// 그룹원 삭제
-	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=#{project_id} and user_id=#{user_id}")
+	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=#{project_id} and user_email=#{user_email}")
 	void deleteGroup(ProjectJoinDTO join);
 	
 	// 그룹원 요청 처리
-	@Update("UPDATE " + PROJECTJOIN + "join_status=#{join_status} WHERE user_id=#{user_id}")		
+	@Update("UPDATE " + PROJECTJOIN + "join_status=#{join_status} WHERE user_email=#{user_email}")		
 	void updateGroup(ProjectJoinDTO join);
 	
 	// 회의
@@ -134,7 +135,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<MeetingLogDTO> meetingLog(MeetingDTO meetingLog);
 	
 	// 회의 주제 추가
-	@Insert("INSERT INTO " + MEETINGLOG + " VALUES (null, #{meeting_id}, #{meeting_log_subject}, #{user_id})")
+	@Insert("INSERT INTO " + MEETINGLOG + " VALUES (null, #{meeting_id}, #{meeting_log_subject}, #{user_email})")
 	void insertMeetingLog(MeetingLogDTO meetingLog);
 	
 	// 회의 주제 삭제
@@ -146,7 +147,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	ArrayList<MeetingLogChatDTO> meetingLogChat(MeetingLogDTO meetinglogDTO);
 	
 	// 주제에대한 의견 생성
-	@Insert("INSERT INTO " + MEETINGLOGCHAT + " VALUES (null, #{meeting_log_id}, #{meeting_log_opinion}, #{user_id})")
+	@Insert("INSERT INTO " + MEETINGLOGCHAT + " VALUES (null, #{meeting_log_id}, #{meeting_log_opinion}, #{user_email})")
 	ArrayList<MeetingLogChatDTO> insertMeetingLogChat(MeetingLogChatDTO meetinglogDTO);
 	
 	// 회의 주제 삭제

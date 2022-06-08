@@ -18,4 +18,5 @@ public class ProjectBoardDTO {
 	private Date start_date;
 	private Date final_date;
 	private Date final_expect_date;
+	private int kanban_id;
 }

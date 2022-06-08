@@ -72,20 +72,23 @@ public class ProjectController {
     	PrintWriter out = res.getWriter();
     	
     	ProjectJoinDTO join = new ProjectJoinDTO();    	
+    	ProjectStatusDTO projectstatus = new ProjectStatusDTO();
     	
     	
     	if(projectService.createProject(project)) {
-    		join.setUser_email(userInfo.getUser_email());
-        	join.setProject_id(projectService.selectLatestProject().getProject_id());
-        	join.setRole("관리자");
-        	join.setJoin_status("admin");
-        	
-    		projectService.insertGroup(join);
-    		
-			out.println("<script>");
-			out.println("alert('프로젝트 생성완료');");
-			out.println("location.href='projects';");
-			out.println("</script>");
+            project.setProject_id(projectService.selectLatestProject().getProject_id());
+            join.setUser_email(userInfo.getUser_email());
+             join.setProject_id(project.getProject_id());
+             join.setRole("관리자");
+             join.setJoin_status("admin");           
+            projectService.insertGroup(join);
+            
+            projectService.createDefaultKanban(project);
+            
+           out.println("<script>");
+           out.println("alert('프로젝트 생성완료');");
+           out.println("location.href='projects';");
+           out.println("</script>");
     	} else {
     		out.println("<script>");
 			out.println("alert('프로젝트 생성실패');");
@@ -138,6 +141,27 @@ public class ProjectController {
 		return "community";
 	}
 	
+	// 프로젝트 보드 생성
+	@PostMapping("createboard")
+	public void createboard(Model model, ProjectStatusDTO projectboard, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	
+    	if(projectService.createBoardStatus(projectboard)) {
+			out.println("<script>");
+			out.println("alert('프로젝트 보드 생성완료');");
+			out.println("location.href='project?project_id="+ projectboard.getProject_id() +"';");
+			out.println("</script>");
+    	}else {
+			out.println("<script>");
+			out.println("alert('프로젝트 보드 생성실패');");
+			out.println("location.href='projects;");
+			out.println("</script>");
+    	}
+    	
+	}
 	// 그룹 초대 요청 
 	@PostMapping("inviteGroup")
 	public void insertGroup(Model model, ProjectDTO project, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 

@@ -46,15 +46,15 @@ public interface ProjectMapper extends DefaultDBInfo {
 	
 	// task
 	// task 종류(칸반) 불러오기
-	@Select("SELECT * FROM " + PROJECTSTATUS + " where project_id=${project_id}")
+	@Select("SELECT * FROM " + PROJECTSTATUS + " where project_id=${project_id} ORDER BY kanban_id")
 	ArrayList<ProjectStatusDTO> boardStatus(ProjectDTO project);	
 	
 	// 새로운 칸반 생성
-	@Insert("INSERT INTO " + PROJECTSTATUS + " VALUES( #{project_status}, ${project_id} ) ")
+	@Insert("INSERT INTO " + PROJECTSTATUS + " VALUES(null, #{project_status}, ${project_id})")
 	void createBoardStatus(ProjectStatusDTO status);
 	
 	// 칸반 삭제
-	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE project_id=${project_id} and project_status=#{project_status}")
+	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE kanban_id=${kanban_id}")
 	void deleteBoardStatus(ProjectStatusDTO status);
 	
 	// 프로젝트 task(board) 불러오기 
@@ -64,7 +64,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
 			+ " VALUES(null,${project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0"
-			+ "#{project_status}, #{start_date}, #{final_date}, #{final_expect_date})")
+			+ " #{start_date}, #{final_date}, #{final_expect_date}, #{kanban_id})")
 	void createBoard(ProjectBoardDTO board);
 
 	// task 삭제
@@ -74,7 +74,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	// 작업 내용 수정
 	@Update("UPDATE " + PROJECTBOARD
 			+ " board_subject=#{board_subject}, board_content=#{board_content}, start_user_email=#{start_user_email},"
-			+ "views=#{views}, project_status=#{project_status}, start_date=#{start_date}, final_date=#{final_date}, final_expect_date=#{final_expect_date}"
+			+ "views=#{views}, start_date=#{start_date}, final_date=#{final_date}, final_expect_date=#{final_expect_date}, kanban_id=#{kanban_id}"
 			+ " WHERE board_id=#{board_id}")
 	void updateBoard(ProjectBoardDTO board);
 	

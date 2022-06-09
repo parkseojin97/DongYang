@@ -130,6 +130,7 @@ public class ProjectController {
 	@GetMapping("settings")
 	public String settings(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {		
 		ArrayList<ProjectJoinDTO> group =  projectService.selctGroup(project);
+		
 //		session = req.getSession();
 		model.addAttribute("group", group);
 		model.addAttribute("project", project);		
@@ -138,7 +139,7 @@ public class ProjectController {
 	
 	//공개범위가 public인 프로젝트 리스트 페이징 처리해서 이동
 	@GetMapping("community")
-	public String comunity(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest req, HttpServletResponse res) {		
+	public String community(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest req, HttpServletResponse res) {		
 		
 		// 총 게시물 수
 		int totalListCnt = projectService.selectPublicProjectCnt();
@@ -271,7 +272,7 @@ public class ProjectController {
 			
 			boards.addAll(board);
 		}
-		model.addAttribute("projects", projects);
+		model.addAttribute("projectList", projects);
 		model.addAttribute("boards", boards);
 		
 		return "dashboard";

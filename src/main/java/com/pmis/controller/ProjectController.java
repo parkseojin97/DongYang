@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectDTO;
@@ -21,6 +22,7 @@ import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
 import com.pmis.model.ProjectStatusDTO;
 import com.pmis.model.UserDTO;
+import com.pmis.module.Pagination;
 import com.pmis.service.ProjectService;
 
 @Controller
@@ -56,7 +58,7 @@ public class ProjectController {
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("boards", boards);
 		model.addAttribute("rules", rules);
-		model.addAttribute("joins", joins);
+		model.addAttribute("joins", joins);		
 		model.addAttribute("project", project);
 		
 		return "project";
@@ -76,19 +78,21 @@ public class ProjectController {
     	
     	
     	if(projectService.createProject(project)) {
-            project.setProject_id(projectService.selectLatestProject().getProject_id());
-            join.setUser_email(userInfo.getUser_email());
-             join.setProject_id(project.getProject_id());
-             join.setRole("관리자");
-             join.setJoin_status("admin");           
-            projectService.insertGroup(join);
-            
-            projectService.createDefaultKanban(project);
-            
-           out.println("<script>");
-           out.println("alert('프로젝트 생성완료');");
-           out.println("location.href='projects';");
-           out.println("</script>");
+
+    		project.setProject_id(projectService.selectLatestProject().getProject_id());
+    		join.setUser_email(userInfo.getUser_email());
+        	join.setProject_id(project.getProject_id());
+        	join.setRole("관리자");
+        	join.setJoin_status("admin");        	
+    		projectService.insertGroup(join);
+    		
+    		projectService.createDefaultKanban(project);
+    		
+			out.println("<script>");
+			out.println("alert('프로젝트 생성완료');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+
     	} else {
     		out.println("<script>");
 			out.println("alert('프로젝트 생성실패');");
@@ -96,7 +100,6 @@ public class ProjectController {
 			out.println("</script>");
     	}
 	}
-	
 	//프로젝트 삭제
 	@PostMapping("deleteproject")
 	public void deleteProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res)
@@ -133,14 +136,25 @@ public class ProjectController {
 		return "settings";
 	}
 	
+	//공개범위가 public인 프로젝트 리스트 페이징 처리해서 이동
 	@GetMapping("community")
-	public String comunity(Model model, HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<ProjectDTO> projects = projectService.selectProjects();
+	public String comunity(Model model, @RequestParam(defaultValue = "1") int page, HttpServletRequest req, HttpServletResponse res) {		
 		
-		model.addAttribute("projects", projects);
+		// 총 게시물 수
+		int totalListCnt = projectService.selectPublicProjectCnt();
+		
+		// 생성인자로 총 게시물 수, 현재 페이지 전달
+		Pagination pagination = new Pagination(totalListCnt, page);
+		int startIndex = pagination.getStartIndex();
+		int pageSize = pagination.getPageSize();
+		ArrayList<ProjectDTO> projectList = projectService.selectPagingProjects(startIndex, pageSize);
+		
+		model.addAttribute("pagination", pagination);
+		model.addAttribute("projectList", projectList);
 		return "community";
 	}
 	
+
 	// 프로젝트 보드 생성
 	@PostMapping("createboard")
 	public void createboard(Model model, ProjectStatusDTO projectboard, HttpServletRequest req, HttpServletResponse res) 
@@ -168,6 +182,8 @@ public class ProjectController {
 			throws IOException {
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
+		join.setJoin_status("invite");
+		join.setRole("초대 요청");
 		if(projectService.insertGroup(join)) {
 			model.addAttribute("joins", projectService.selctGroup(project));
 			out.println("<script>");
@@ -188,6 +204,8 @@ public class ProjectController {
 			throws IOException {
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
+		join.setJoin_status("request");
+		join.setRole("참가 요청");
 		if(projectService.insertGroup(join)) {
 			out.println("<script>");
 			out.println("alert('그룹 참가 요청 성공');");

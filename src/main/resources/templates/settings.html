@@ -12,40 +12,21 @@
 </head>
 
 <body style="padding-left: 14rem;">
-    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-2">
-                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-1"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
-                        <div class="container" th:if="${session.mem != null}">
-                            <div class="row">
-                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"><span class="p-1" th:text="${session.mem.getNickname()}">닉네임</span></div>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
-                </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="projects.html">프로젝트</a></li>
-                </ul>
-            </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-1" th:if="${session.mem != null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-1" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지" th:src="${session.mem.getProfile_image()}"></a>
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span th:text="${session.mem.getNickname()}">닉네임</span></h6><a class="dropdown-item" href="mypage.html">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a>
-                </div>
-            </div>
-        </div>
-    </nav><!-- Start: Sidebar -->
+    <div th:insert="/project_navbar::nav"></div><!-- Start: Sidebar -->
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="/"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -64 640 640" width="1em" height="1em" fill="currentColor" class="me-1">
+                            <!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. -->
+                            <path d="M352 32C378.5 32 400 53.49 400 80V84H518.4C528.8 62.69 550.7 48 576 48C611.3 48 640 76.65 640 112C640 147.3 611.3 176 576 176C550.7 176 528.8 161.3 518.4 140H451.5C510.4 179.6 550.4 244.1 555.5 320H560C586.5 320 608 341.5 608 368V432C608 458.5 586.5 480 560 480H496C469.5 480 448 458.5 448 432V368C448 341.5 469.5 320 496 320H499.3C493.4 253 450.8 196.6 391.8 170.9C383.1 183.6 368.6 192 352 192H288C271.4 192 256.9 183.6 248.2 170.9C189.2 196.6 146.6 253 140.7 320H144C170.5 320 192 341.5 192 368V432C192 458.5 170.5 480 144 480H80C53.49 480 32 458.5 32 432V368C32 341.5 53.49 320 80 320H84.53C89.56 244.1 129.6 179.6 188.5 140H121.6C111.2 161.3 89.3 176 64 176C28.65 176 0 147.3 0 112C0 76.65 28.65 48 64 48C89.3 48 111.2 62.69 121.6 84H240V80C240 53.49 261.5 32 288 32H352zM296 136H344V88H296V136zM88 376V424H136V376H88zM552 424V376H504V424H552z"></path>
+                        </svg>&nbsp;SPMIS</span></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
         </li><!-- End: Logo Holder -->
         <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
             <div class="dropdown-menu border-0 animated fadeIn" th:if="${projectList != null}"><a class="dropdown-item" th:each="project : ${projectList}" th:href="@{/project/${project.getProject_id()}}"><span class="text-white" th:text="${project.getProject_name()}" th:href="${project.getProject_id()}">Project 1</span></a></div>
         </li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
         <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Proejct Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Project Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
             <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
         </li>
         <li class="nav-item"></li>

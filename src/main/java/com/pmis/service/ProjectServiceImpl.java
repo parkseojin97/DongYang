@@ -28,13 +28,19 @@ public class ProjectServiceImpl implements ProjectService {
 		// TODO Auto-generated method stub
 		return projectMapper.selectProjects(user);
 	}
+	
 	@Override
-	public ArrayList<ProjectDTO> selectProjects() {
+	public ArrayList<ProjectDTO> selectPublicProjects() {
 		// TODO Auto-generated method stub
-		return projectMapper.selectAllProjects();
+		return projectMapper.selectPublicProjects(); 
 	}
-
+	
 	@Override
+	public int selectPublicProjectCnt() {
+		return projectMapper.selectPublicProjectCnt();
+	}
+	
+	@Override	
 	public boolean createProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
 		projectMapper.createProject(project);
@@ -47,6 +53,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectProject();
 	}
 
+	public ArrayList<ProjectDTO> selectPagingProjects(int startIndex, int pageSize){
+		
+		return projectMapper.selectPagingProjects(startIndex,pageSize);
+	}
+	
 	@Override
 	public boolean deleteProject(ProjectDTO project) {
 		// TODO Auto-generated method stub

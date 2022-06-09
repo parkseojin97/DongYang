@@ -21,8 +21,14 @@ public interface ProjectService {
 	// 프로젝트 목록 불러오기
 	public ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
-	// 모든 프로젝트 목록 불러오기
-	public ArrayList<ProjectDTO> selectProjects();
+	// 공개범위가 public인 프로젝트 목록 불러오기
+	public ArrayList<ProjectDTO> selectPublicProjects();
+	
+	// 공개범위가 public인 프로젝트 갯수  불러오기
+	public int selectPublicProjectCnt();
+	
+	// 공개범위가 public이고 pagination처리가된 프로젝트 목록 불러오기
+	public ArrayList<ProjectDTO> selectPagingProjects(int startIndex, int pageSize);
 	
 	// 새로운 프로젝트 생성
 	public boolean createProject(ProjectDTO project); 

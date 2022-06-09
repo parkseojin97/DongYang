@@ -72,7 +72,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
 			+ " VALUES(null,${project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0"
-			+ " #{start_date}, #{final_date}, #{final_expect_date}, #{kanban_id})")
+			+ " null, null, #{final_expect_date}, #{kanban_id})")
 	void createBoard(ProjectBoardDTO board);
 
 	// task 삭제

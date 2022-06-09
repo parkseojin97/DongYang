@@ -3,12 +3,14 @@ package com.pmis.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -156,18 +158,18 @@ public class ProjectController {
 	}
 	
 
-	// 프로젝트 보드 생성
-	@PostMapping("createboard")
-	public void createboard(Model model, ProjectStatusDTO projectboard, HttpServletRequest req, HttpServletResponse res) 
+	// 칸반 생성
+	@PostMapping("createkanban")
+	public void createboard(Model model, ProjectStatusDTO projectkanban, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
 		
 		res.setContentType("text/html; charset=UTF-8");
     	PrintWriter out = res.getWriter();
     	
-    	if(projectService.createBoardStatus(projectboard)) {
+    	if(projectService.createBoardStatus(projectkanban)) {
 			out.println("<script>");
 			out.println("alert('프로젝트 보드 생성완료');");
-			out.println("location.href='project?project_id="+ projectboard.getProject_id() +"';");
+			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
 			out.println("</script>");
     	}else {
 			out.println("<script>");
@@ -177,6 +179,30 @@ public class ProjectController {
     	}
     	
 	}
+	
+	// board 생성
+		@PostMapping("createboard")
+		public void createTask(Model model, ProjectBoardDTO board, @RequestParam("time") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") Date time, HttpServletRequest req, HttpServletResponse res)
+				throws IOException {
+			
+			res.setContentType("text/html; charset=UTF-8");
+	    	PrintWriter out = res.getWriter();
+	    	
+	    	board.setFinal_expect_date(time);
+	    	
+	    	if(projectService.createBoard(board)) {
+				out.println("<script>");
+				out.println("alert('보드 생성완료');");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+				out.println("</script>");
+	    	}else {
+				out.println("<script>");
+				out.println("alert('보드 생성실패');");
+				out.println("location.href='projects;");
+				out.println("</script>");
+	    	}
+		}
+	
 	// 그룹 초대 요청 
 	@PostMapping("inviteGroup")
 	public void insertGroup(Model model, ProjectDTO project, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 

@@ -26,9 +26,17 @@ public interface ProjectMapper extends DefaultDBInfo {
 			+ " FROM " + PROJECT + " p, " + PROJECTJOIN + " pj WHERE p.project_id = pj.project_id and pj.user_email = #{user_email};")
 	ArrayList<ProjectDTO> selectProjects(UserDTO user);
 	
-	// 모든 프로젝트 목록 불러오기
-	@Select("SELECT * FROM " + PROJECT )
-	ArrayList<ProjectDTO> selectAllProjects();	
+	// 공개범위가 public인 프로젝트 목록 불러오기
+	@Select("SELECT * FROM " + PROJECT + " where privacy_scope=1")
+	ArrayList<ProjectDTO> selectPublicProjects();	
+	
+	// 공개범위가 public인 프로젝트 갯수 불러오기
+	@Select("SELECT count(*) FROM " + PROJECT + " where privacy_scope=1")
+	int selectPublicProjectCnt();	
+	
+	// 공개범위가 public이고 pagination처리가된 프로젝트 목록 불러오기
+	@Select("SELECT * FROM " + PROJECT + " where privacy_scope=1 order by project_id desc limit ${startIndex}, ${pageSize}")
+	ArrayList<ProjectDTO> selectPagingProjects(int startIndex, int pageSize);	
 	
 	// 새로운 프로젝트 생성
 	@Insert("INSERT INTO " + PROJECT + " VALUES( null, #{project_name}, #{project_des}, "

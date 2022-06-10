@@ -14,7 +14,6 @@ public class ProjectBoardDTO {
 	private String create_user_email;
 	private String start_user_email;
 	private int views;
-	private String project_status;
 	private Date start_date;
 	private Date final_date;
 	private Date final_expect_date;

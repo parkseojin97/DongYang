@@ -2,6 +2,8 @@ package com.pmis.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,6 +47,8 @@ public class ProjectController {
 		ArrayList<ProjectDTO> projectList = projectService.selectProjects(userInfo);
 		model.addAttribute("projectList", projectList);
 		
+		System.out.println(projectList);
+		
 		return "projects";
 	}
 	
@@ -56,6 +60,7 @@ public class ProjectController {
 		ArrayList<ProjectBoardDTO> boards = projectService.selectBoards(project);
 		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
 		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
+	
 		
 		model.addAttribute("tasks", tasks);
 		model.addAttribute("boards", boards);
@@ -174,7 +179,7 @@ public class ProjectController {
     	}else {
 			out.println("<script>");
 			out.println("alert('프로젝트 보드 생성실패');");
-			out.println("location.href='projects;");
+			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
 			out.println("</script>");
     	}
     	
@@ -198,7 +203,31 @@ public class ProjectController {
 	    	}else {
 				out.println("<script>");
 				out.println("alert('보드 생성실패');");
-				out.println("location.href='projects;");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+				out.println("</script>");
+	    	}
+		}
+	// board 수정
+		@PostMapping("updateboard")
+		public void updateTask(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
+				throws IOException, ParseException {
+			
+			res.setContentType("text/html; charset=UTF-8");
+	    	PrintWriter out = res.getWriter();
+	    	
+	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+	        board.setStart_date(formatter.parse(starttime));
+	        board.setFinal_date(formatter.parse(finaltime));
+	    	
+	    	if(projectService.updateBoard(board)) {
+				out.println("<script>");
+				out.println("alert('보드 생성완료');");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+				out.println("</script>");
+	    	}else {
+				out.println("<script>");
+				out.println("alert('보드 생성실패');");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
 				out.println("</script>");
 	    	}
 		}

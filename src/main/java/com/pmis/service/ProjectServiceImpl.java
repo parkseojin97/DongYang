@@ -100,10 +100,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO proejct) {
+	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		projectMapper.boards(proejct);
-		return null;
+		return projectMapper.boards(project);
 	}
 
 	@Override
@@ -130,8 +129,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public ArrayList<ProjectRuleDTO> selectRule(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		projectMapper.rule(project);
-		return null;
+		return projectMapper.rule(project);
 	}
 
 	@Override
@@ -151,8 +149,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public ArrayList<BoardCommentDTO> selectComment(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub
-		projectMapper.comment(board);
-		return null;
+		return projectMapper.comment(board);
 	}
 
 	@Override
@@ -170,9 +167,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO proejct) {
+	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project) {
 		// TODO Auto-generated method stub		
-		return projectMapper.group(proejct);
+		return projectMapper.group(project);
 	}
 
 	@Override
@@ -197,9 +194,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO proejct) {
+	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		return projectMapper.meeting(proejct);
+		return projectMapper.meeting(project);
 	}
 
 	@Override

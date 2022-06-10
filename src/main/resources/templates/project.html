@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0609</title>
+    <title>spmis0606</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -123,7 +123,7 @@
                         <h4 class="modal-title">Board 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/createboard" method="post"><label class="form-label">Board 이름</label><input class="form-control" type="text" name="project_status"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}">
+                        <form action="/createkanban" method="post"><label class="form-label">Board 이름</label><input class="form-control" type="text" name="project_status"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}">
                             <div class="d-lg-flex justify-content-lg-end mt-2"><button class="btn btn-light" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary" type="submit">저장</button></div>
                         </form>
                     </div>
@@ -138,20 +138,20 @@
                         <h4 class="modal-title">Task 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/taskCreate" method="post"><label class="form-label">Task 이름</label><input class="form-control mb-2" type="text"><label class="form-label">내용</label><textarea class="form-control" id="txtTinyMCE" name="write-content" autocomplete="off" spellcheck="true"></textarea>
+                        <form action="/createboard" method="post"><label class="form-label">Task 이름</label><input class="form-control mb-2" type="text" name="board_subject"><label class="form-label">내용</label><textarea class="form-control" id="txtTinyMCE" name="board_content" autocomplete="off" spellcheck="true"></textarea>
                             <div class="row">
                                 <div class="col">
                                     <ul class="list-group list-group-horizontal">
                                         <li class="list-group-item list-group-item-light">
-                                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">작업자</button>
-                                                <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" value="작업자"></button>
+                                                <div class="dropdown-menu"><a class="dropdown-item" href="#" th:each="join : ${joins}" th:text="${join.getUser_email()}" th:value="${join.getUser_email()}" name="start_user_email">First Item</a></div>
                                             </div>
                                         </li>
                                         <li class="list-group-item list-group-item-light d-lg-flex d-xl-flex align-items-center"><span class="text-center text-dark">마감기한</span></li>
-                                        <li class="list-group-item list-group-item-light"><input class="form-control" type="datetime-local"></li>
+                                        <li class="list-group-item list-group-item-light"><input class="form-control" type="datetime-local" name="time"></li>
                                     </ul>
                                 </div>
-                            </div><button class="btn btn-light float-end" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary float-end" type="button">저장</button>
+                            </div><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}"><button class="btn btn-light float-end" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary float-end" type="submit">저장</button>
                         </form>
                     </div>
                     <div class="modal-footer"></div>

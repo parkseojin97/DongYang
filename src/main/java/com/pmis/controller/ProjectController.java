@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pmis.model.ProjectBoardDTO;
+import com.pmis.model.ProjectBoardJoinKanban;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -43,7 +44,7 @@ public class ProjectController {
 	@GetMapping("projects")
 	public String projects(Model model, HttpServletRequest req, HttpServletResponse res) {
 		session = req.getSession();
-		UserDTO userInfo = (UserDTO) session.getAttribute("mem");	
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
 		ArrayList<ProjectDTO> projectList = projectService.selectProjects(userInfo);
 		model.addAttribute("projectList", projectList);
 		
@@ -54,8 +55,35 @@ public class ProjectController {
 	
 	// 프로젝트 상세 페이지
 	@GetMapping("project")
-	public String selectProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {
+	public String selectProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		
+		res.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = res.getWriter();
+		System.out.println(projectService.selectOneProject(project).getPrivacy_scope());
+		if(!projectService.selectOneProject(project).getPrivacy_scope().equals("public") ) {
+			
+			if(session == null) {
+				out.println("<script>");
+				out.println("alert('허가되지 않은 사용자의 접근입니다.');");
+				out.println("location.href='community';");
+				out.println("</script>");    
+			}else {
+				UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+				if(projectService.selctGroupCheck(project, userInfo) == null) {
+					out.println("<script>");
+					out.println("alert('허가되지 않은 사용자의 접근입니다');");
+					out.println("location.href='community';");
+					out.println("</script>");   
+				}
+				
+				
+			}
+		}
+		
+		
 		// tasks : 칸반 종류, boards : 칸반안의 게시글 목록, rules : 프로젝트 룰 목록, joins : 프로젝트 참여인원, project : 받아온 프로젝트 
+	
 		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
 		ArrayList<ProjectBoardDTO> boards = projectService.selectBoards(project);
 		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
@@ -186,27 +214,32 @@ public class ProjectController {
 	}
 	
 	// board 생성
-		@PostMapping("createboard")
-		public void createTask(Model model, ProjectBoardDTO board, @RequestParam("time") @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") Date time, HttpServletRequest req, HttpServletResponse res)
-				throws IOException {
-			
-			res.setContentType("text/html; charset=UTF-8");
-	    	PrintWriter out = res.getWriter();
-	    	
-	    	board.setFinal_expect_date(time);
-	    	
-	    	if(projectService.createBoard(board)) {
-				out.println("<script>");
-				out.println("alert('보드 생성완료');");
-				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
-				out.println("</script>");
-	    	}else {
-				out.println("<script>");
-				out.println("alert('보드 생성실패');");
-				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
-				out.println("</script>");
-	    	}
-		}
+	@PostMapping("createboard")
+	public void createTask(Model model, ProjectBoardDTO board, String time, HttpServletRequest req, HttpServletResponse res)
+			throws IOException, ParseException {
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+    	board.setCreate_user_email(userInfo.getUser_email());
+    	
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+    	board.setFinal_expect_date(formatter.parse(time));
+    	
+    	System.out.println(board);
+    	
+    	if(projectService.createBoard(board)) {
+			out.println("<script>");
+			out.println("alert('보드 생성완료');");
+			out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+			out.println("</script>");
+    	}else {
+			out.println("<script>");
+			out.println("alert('보드 생성실패');");
+			out.println("location.href='projects;");
+			out.println("</script>");
+    	}
+	}
+	
 	// board 수정
 		@PostMapping("updateboard")
 		public void updateTask(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
@@ -317,18 +350,20 @@ public class ProjectController {
 	}
 
 			
-	@SuppressWarnings("null")
 	@GetMapping("dashboard")
-	public String dashboard(Model model, UserDTO user, HttpServletRequest req, HttpServletResponse res) {
-		ArrayList<ProjectDTO> projects = projectService.selectProjects(user);
-		ArrayList<ProjectBoardDTO> boards = null; 
-		for (ProjectDTO p : projects) {			
-			ArrayList<ProjectBoardDTO> board = projectService.selectBoards(p);
-			
-			boards.addAll(board);
-		}
+	public String dashboard(Model model, HttpServletRequest req, HttpServletResponse res) {
+		
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		
+		ArrayList<ProjectDTO> projects = projectService.selectProjects(userInfo);
+		ArrayList<ProjectBoardJoinKanban> boards = projectService.selectBoardJoinKanban(userInfo);		
+		
+		
+		System.out.println(projects);
+		
 		model.addAttribute("projectList", projects);
 		model.addAttribute("boards", boards);
+		
 		
 		return "dashboard";
 	}	

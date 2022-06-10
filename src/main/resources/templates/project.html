@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0606</title>
+    <title>spmis0609</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -13,45 +13,8 @@
 </head>
 
 <body style="padding-left: 14rem;">
-    <nav class="navbar navbar-light navbar-expand-md shadow-sm mb-4">
-        <div class="container-fluid"><a class="navbar-brand ms-5" href="projects.html"><span><i class="fas fa-bus me-1"></i></span>SPMIS</a><button data-bs-toggle="collapse" class="navbar-toggler collapsed mr-auto p-0" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <div class="dropdown d-md-none navbar-left" id="usericon-mobile-2"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col d-flex justify-content-start align-items-center p-0"><img class="img-fluid rounded-circle" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"><span class="p-1">닉네임</span></div>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="/mypage">마이페이지</a><a class="dropdown-item" href="/logout">로그아웃</a></div>
-                </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link active" href="projects">프로젝트</a></li>
-                    <li class="nav-item"><a class="nav-link" href="dashboard">대시보드</a></li>
-                </ul>
-            </div>
-            <div class="dropstart d-none d-md-block navbar-right" id="usericon-desktop-2" th:if="${session.mem!=null}"><a aria-expanded="false" data-bs-toggle="dropdown" class="text-decoration-none text-reset"><img class="img-fluid rounded-circle" id="usericon-desktop-image-2" src="https://i.pravatar.cc/200" width="40px" height="40px" alt="프로필이미지"></a>
-                <div class="dropdown-menu">
-                    <h6 class="dropdown-header"><span th:text="${session.mem.getUser_name()}">닉네임</span></h6><a class="dropdown-item" href="mypage">마이페이지</a><a class="dropdown-item" href="logout">로그아웃</a>
-                </div>
-            </div>
-        </div>
-    </nav><!-- Start: Sidebar -->
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
-        <!-- Start: Logo Holder -->
-        <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="#"><strong>Sidebar</strong></a><a class="float-end" id="sidebarToggleHolder" href="#"><i class="fas fa-bars" id="sidebarToggle"></i></a></div>
-        </li><!-- End: Logo Holder -->
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="projects"><i class="fas fa-project-diagram text-white mx-3"></i><span class="text-nowrap mx-2">Projects</span></a>
-            <div class="dropdown-menu border-0 animated fadeIn" th:if="${projectList != null}"><a class="dropdown-item" th:each="project : ${projectList}" th:href="@{/project/${project.getProject_id()}}"><span class="text-white" th:text="${project.getProject_name()}" th:href="${project.getProject_id()}">Project 1</span></a></div>
-        </li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="dashboard"><i class="fas fa-tachometer-alt text-white mx-3"></i><span class="text-nowrap mx-2">Dashboard</span></a></li>
-        <li class="nav-item"><a class="nav-link text-start py-1 px-0" href="meeting"><i class="fas fa-users text-white mx-3"></i><span class="text-nowrap mx-2">Meeting</span></a><a class="nav-link text-start py-1 px-0" href="schedule"><i class="fas fa-calendar-alt text-white mx-3"></i><span class="text-nowrap mx-2">Calendar</span></a></li>
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-start py-1 px-0 position-relative" aria-expanded="false" data-bs-toggle="dropdown" href="settings"><i class="fas fa-sliders-h text-white mx-3"></i><span class="text-nowrap mx-2">Project Settings</span><i class="fas fa-caret-down float-none float-lg-end fa-sm"></i></a>
-            <div class="dropdown-menu border-0 animated fadeIn"><a class="dropdown-item" href="#"><span>Change password</span></a><a class="dropdown-item" href="#"><span>Change email</span></a><a class="dropdown-item" href="settings.html" data-bs-target="settings"><span>More</span></a></div>
-        </li>
-        <li class="nav-item"></li>
-    </ul><!-- End: Sidebar -->
+    <div th:insert="/project_navbar::nav"></div>
+    <div th:insert="/nav_sidebar::ul"></div>
     <div class="container mb-4 ms-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#"><span th:text="${project.getProject_name()}">프로젝트명</span></a></li>
@@ -160,7 +123,7 @@
                         <h4 class="modal-title">Board 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/createkanban" method="post"><label class="form-label">Board 이름</label><input class="form-control" type="text" name="project_status"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}">
+                        <form action="/createboard" method="post"><label class="form-label">Board 이름</label><input class="form-control" type="text" name="project_status"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}">
                             <div class="d-lg-flex justify-content-lg-end mt-2"><button class="btn btn-light" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary" type="submit">저장</button></div>
                         </form>
                     </div>
@@ -175,20 +138,20 @@
                         <h4 class="modal-title">Task 생성</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/createboard" method="post"><label class="form-label">Task 이름</label><input class="form-control mb-2" type="text" name="board_subject"><label class="form-label">내용</label><textarea class="form-control" id="txtTinyMCE" name="board_content" autocomplete="off" spellcheck="true"></textarea>
+                        <form action="/taskCreate" method="post"><label class="form-label">Task 이름</label><input class="form-control mb-2" type="text"><label class="form-label">내용</label><textarea class="form-control" id="txtTinyMCE" name="write-content" autocomplete="off" spellcheck="true"></textarea>
                             <div class="row">
                                 <div class="col">
                                     <ul class="list-group list-group-horizontal">
                                         <li class="list-group-item list-group-item-light">
-                                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" value="작업자"></button>
-                                                <div class="dropdown-menu"><a class="dropdown-item" href="#" th:each="join : ${joins}" th:text="${join.getUser_email()}" th:value="${join.getUser_email()}" name="start_user_email">First Item</a></div>
+                                            <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button">작업자</button>
+                                                <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
                                             </div>
                                         </li>
                                         <li class="list-group-item list-group-item-light d-lg-flex d-xl-flex align-items-center"><span class="text-center text-dark">마감기한</span></li>
-                                        <li class="list-group-item list-group-item-light"><input class="form-control" type="datetime-local" name="time"></li>
+                                        <li class="list-group-item list-group-item-light"><input class="form-control" type="datetime-local"></li>
                                     </ul>
                                 </div>
-                            </div><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}"><button class="btn btn-light float-end" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary float-end" type="submit">저장</button>
+                            </div><button class="btn btn-light float-end" type="button" data-bs-dismiss="modal">취소</button><button class="btn btn-primary float-end" type="button">저장</button>
                         </form>
                     </div>
                     <div class="modal-footer"></div>

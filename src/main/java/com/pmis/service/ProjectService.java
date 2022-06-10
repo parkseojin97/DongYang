@@ -7,6 +7,7 @@ import com.pmis.model.MeetingDTO;
 import com.pmis.model.MeetingLogChatDTO;
 import com.pmis.model.MeetingLogDTO;
 import com.pmis.model.ProjectBoardDTO;
+import com.pmis.model.ProjectBoardJoinKanban;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -37,6 +38,9 @@ public interface ProjectService {
 	public boolean deleteProject(ProjectDTO project);
 	
 	// 프로젝트 조회
+	public ProjectDTO selectOneProject(ProjectDTO project);
+	
+	// 가장 최신의 프로젝트 조회
 	public ProjectDTO selectLatestProject();
 	
 	// default칸반 TO DO, DOING, DONE 칸반 생성
@@ -65,6 +69,9 @@ public interface ProjectService {
 	// task 작업 내용 수정
 	public boolean updateBoard(ProjectBoardDTO board);
 	
+	// 유저별 작업 목록 가져오기 (board + boardstatus) 
+	public ArrayList<ProjectBoardJoinKanban> selectBoardJoinKanban(UserDTO user);
+	
 	
 	
 	// 프로젝트 룰
@@ -90,6 +97,9 @@ public interface ProjectService {
 	
 	
 	// 그룹
+	// 그룹원인지 체크해서 제대로 가져오면 인증 null 값이면 되돌리기
+	public ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user);
+	
 	// 그룹원 목록 불러오기
 	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project);
 	

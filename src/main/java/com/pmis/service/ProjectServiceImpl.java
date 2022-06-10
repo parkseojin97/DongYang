@@ -11,6 +11,7 @@ import com.pmis.model.MeetingDTO;
 import com.pmis.model.MeetingLogChatDTO;
 import com.pmis.model.MeetingLogDTO;
 import com.pmis.model.ProjectBoardDTO;
+import com.pmis.model.ProjectBoardJoinKanban;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -43,14 +44,19 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override	
 	public boolean createProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		projectMapper.createProject(project);
 		
-		return true;
+		
+		return projectMapper.createProject(project);
 	}
 	
 	@Override
+	// 프로젝트 조회
+	public ProjectDTO selectOneProject(ProjectDTO project) {
+		return projectMapper.selectOneProject(project);
+	}
+	@Override
 	public ProjectDTO selectLatestProject() {
-		return projectMapper.selectProject();
+		return projectMapper.selectLatestProject();
 	}
 
 	public ArrayList<ProjectDTO> selectPagingProjects(int startIndex, int pageSize){
@@ -61,8 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public boolean deleteProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
-		projectMapper.deleteProject(project);
-		return true;
+		return projectMapper.deleteProject(project);
 	}
 
 	@Override 
@@ -70,11 +75,12 @@ public class ProjectServiceImpl implements ProjectService {
 		ProjectStatusDTO kanban = new ProjectStatusDTO();
 		kanban.setProject_id(project.getProject_id());
 		kanban.setProject_status("TO DO");		
-		projectMapper.createBoardStatus(kanban);
+		if(!projectMapper.createBoardStatus(kanban)) return false;
 		kanban.setProject_status("DOING");		
-		projectMapper.createBoardStatus(kanban);
+		if(!projectMapper.createBoardStatus(kanban)) return false;
 		kanban.setProject_status("DONE");		
-		projectMapper.createBoardStatus(kanban);
+		if(!projectMapper.createBoardStatus(kanban)) return false;
+		
 		
 		return true;
 	}
@@ -87,16 +93,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean createBoardStatus(ProjectStatusDTO status) {
-		// TODO Auto-generated method stub
-		projectMapper.createBoardStatus(status);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.createBoardStatus(status);
 	}
 
 	@Override
 	public boolean deleteBoardStatus(ProjectStatusDTO status) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteBoardStatus(status);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteBoardStatus(status);
 	}
 
 	@Override
@@ -107,23 +111,25 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean createBoard(ProjectBoardDTO board) {
-		// TODO Auto-generated method stub
-		projectMapper.createBoard(board);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.createBoard(board);
 	}
 
 	@Override
 	public boolean deleteBoard(ProjectBoardDTO board) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteBoard(board);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteBoard(board);
 	}
 
 	@Override
 	public boolean updateBoard(ProjectBoardDTO board) {
-		// TODO Auto-generated method stub
-		projectMapper.updateBoard(board);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.updateBoard(board);
+	}
+	
+	@Override
+	public ArrayList<ProjectBoardJoinKanban> selectBoardJoinKanban(UserDTO user){
+		return projectMapper.selectBoardJoinKanban(user);
 	}
 
 	@Override
@@ -134,16 +140,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean createRule(ProjectRuleDTO rule) {
-		// TODO Auto-generated method stub
-		projectMapper.createRule(rule);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.createRule(rule);
 	}
 
 	@Override
 	public boolean deleteRule(ProjectRuleDTO rule) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteRule(rule);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteRule(rule);
 	}
 
 	@Override
@@ -154,18 +158,22 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean createComment(BoardCommentDTO comment) {
-		// TODO Auto-generated method stub
-		projectMapper.createComment(comment);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.createComment(comment);
 	}
 
 	@Override
 	public boolean deleteComment(BoardCommentDTO comment) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteComment(comment);
-		return false;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteComment(comment);
 	}
 
+	@Override
+	public ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user) {
+		
+		return projectMapper.selctGroupCheck(project, user);
+	}
+	
 	@Override
 	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project) {
 		// TODO Auto-generated method stub		
@@ -174,16 +182,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean insertGroup(ProjectJoinDTO join) {
-		// TODO Auto-generated method stub
-		projectMapper.insertGroup(join);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.insertGroup(join);
 	}
 
 	@Override
 	public boolean deleteProjectUser(ProjectJoinDTO join) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteGroup(join);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteGroup(join);
 	}
 	
 	@Override
@@ -201,16 +207,15 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean createMeeting(MeetingDTO meeting) {
-		// TODO Auto-generated method stub
-		projectMapper.createMeeting(meeting);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.createMeeting(meeting);
 	}
 
 	@Override
 	public boolean deleteMeeting(MeetingDTO meeting) {
 		// TODO Auto-generated method stub
-		projectMapper.deleteMeeting(meeting);
-		return true;
+		
+		return projectMapper.deleteMeeting(meeting);
 	}
 
 	@Override
@@ -222,15 +227,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public boolean insertMeetingLog(MeetingLogDTO meetingLog) {
 		// TODO Auto-generated method stub
-		projectMapper.insertMeetingLog(meetingLog);
-		return true;
+		
+		return projectMapper.insertMeetingLog(meetingLog);
 	}
 
 	@Override
 	public boolean deleteMeetingLog(MeetingLogDTO meetingLog) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteMeetingLog(meetingLog);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteMeetingLog(meetingLog);
 	}
 
 	@Override
@@ -241,16 +245,14 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public boolean insertMeetingChat(MeetingLogChatDTO meetinglogDTO) {
-		// TODO Auto-generated method stub
-		projectMapper.insertMeetingLogChat(meetinglogDTO);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.insertMeetingLogChat(meetinglogDTO);
 	}
 
 	@Override
 	public boolean deleteMeetingChat(MeetingLogChatDTO meetinglogDTO) {
-		// TODO Auto-generated method stub
-		projectMapper.deleteMeetingChat(meetinglogDTO);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteMeetingChat(meetinglogDTO);
 	}
 
 }

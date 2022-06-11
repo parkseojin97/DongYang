@@ -13,6 +13,7 @@ import com.pmis.model.MeetingLogChatDTO;
 import com.pmis.model.MeetingLogDTO;
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectBoardJoinKanban;
+import com.pmis.model.ProjectBoardJoinUserDTO;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -72,7 +73,7 @@ public interface ProjectMapper extends DefaultDBInfo {
 	// 프로젝트 task(board) 불러오기 
 	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=${project_id} ORDER BY board_id DESC")
 	ArrayList<ProjectBoardDTO> boards(ProjectDTO project);
-	
+
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD
 			+ " VALUES(null,${project_id},#{board_subject},#{board_content},now(),#{create_user_email}, #{start_user_email}, 0,"
@@ -82,9 +83,12 @@ public interface ProjectMapper extends DefaultDBInfo {
 	// 유저별 보드와 kanban_name(board_status)불러오기
 	@Select("SELECT project_status, board_id, pb.project_id, board_subject, board_content, board_create_date, "
 			+ "start_user_email,  views, start_date, final_date, final_expect_date, pb.kanban_id "
-			+ "FROM "+  PROJECTBOARD + " pb, " + PROJECTSTATUS + " ps "
+			+ " FROM "+  PROJECTBOARD + " pb, " + PROJECTSTATUS + " ps "
 			+ " where pb.kanban_id = ps.kanban_id and start_user_email=#{user_email}")
 	ArrayList<ProjectBoardJoinKanban> selectBoardJoinKanban(UserDTO user);
+	
+	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=${project_id} ORDER BY board_id DESC")
+	ArrayList<ProjectBoardJoinUserDTO> selectBoardJoinUsers(ProjectDTO project);
 	
 	// task 삭제
 	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE board_id=#{board_id}")
@@ -124,10 +128,10 @@ public interface ProjectMapper extends DefaultDBInfo {
 	boolean deleteComment(BoardCommentDTO comment);
 	
 	// 그룹원인지 체크하기위한 메서드
-	@Select("SELECT project_id FROM " + PROJECTJOIN 
-			+ "where project_id = #{project_id} and user_email= #{user_email} "
-			+ "and join_status in('admin', 'member')" )
-	ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user);
+	@Select("SELECT * FROM " + PROJECTJOIN 
+			+ " where project_id = #{project_id} and user_email= #{user_email} "
+			+ " and join_status in('admin', 'member')" )
+	ProjectJoinDTO selctGroupCheck(int project_id, String user_email);
 	
 	// 그룹원 목록 불러오기
 	@Select("SELECT * FROM " + PROJECTJOIN + " where project_id=${project_id}") 

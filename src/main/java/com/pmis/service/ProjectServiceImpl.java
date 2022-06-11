@@ -180,6 +180,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.createRule(rule);
 	}
 
+	
+	
 	@Override
 	public boolean deleteRule(ProjectRuleDTO rule) {
 		// TODO Auto-generated method stub		
@@ -215,6 +217,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.group(project);
 	}
 
+	public ArrayList<ProjectJoinDTO> selctinviteGroup(UserDTO user){
+		
+		return projectMapper.selctinviteGroup(user);
+	}
+	
 	@Override
 	public boolean insertGroup(ProjectJoinDTO join) {
 		// TODO Auto-generated method stub		

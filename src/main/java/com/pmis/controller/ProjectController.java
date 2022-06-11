@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectBoardJoinKanban;
+import com.pmis.model.ProjectBoardJoinUserDTO;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -58,6 +59,29 @@ public class ProjectController {
 	public String selectProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
 		
+		selctGroupCheck(project, req, res);
+		
+		
+		// tasks : 칸반 종류, boards : 칸반안의 게시글 목록, rules : 프로젝트 룰 목록, joins : 프로젝트 참여인원, project : 받아온 프로젝트 
+	
+		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
+		ArrayList<ProjectBoardJoinUserDTO> boards = projectService.selectBoardJoinUsers(project);
+		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
+		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
+	
+		
+		model.addAttribute("tasks", tasks);
+		model.addAttribute("boards", boards);
+		model.addAttribute("rules", rules);
+		model.addAttribute("joins", joins);		
+		model.addAttribute("project", project);
+		
+		return "project";
+	}
+	
+	// 프로젝트 입장 확인 모듈
+	public void selctGroupCheck(ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
 		System.out.println(projectService.selectOneProject(project).getPrivacy_scope());
@@ -75,28 +99,9 @@ public class ProjectController {
 					out.println("alert('허가되지 않은 사용자의 접근입니다');");
 					out.println("location.href='community';");
 					out.println("</script>");   
-				}
-				
-				
+				}		
 			}
 		}
-		
-		
-		// tasks : 칸반 종류, boards : 칸반안의 게시글 목록, rules : 프로젝트 룰 목록, joins : 프로젝트 참여인원, project : 받아온 프로젝트 
-	
-		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
-		ArrayList<ProjectBoardDTO> boards = projectService.selectBoards(project);
-		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
-		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
-	
-		
-		model.addAttribute("tasks", tasks);
-		model.addAttribute("boards", boards);
-		model.addAttribute("rules", rules);
-		model.addAttribute("joins", joins);		
-		model.addAttribute("project", project);
-		
-		return "project";
 	}
 	
 	//프로젝트 생성

@@ -104,6 +104,9 @@ public interface ProjectService {
 	// 그룹원인지 체크해서 제대로 가져오면 인증 null 값이면 되돌리기
 	public ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user);
 	
+	// 초대상태의 그룹원 목록 불러오기
+	public ArrayList<ProjectJoinDTO> selctinviteGroup(UserDTO user);
+	
 	// 그룹원 목록 불러오기
 	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project);
 	

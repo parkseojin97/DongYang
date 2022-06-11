@@ -44,7 +44,7 @@
                     <div class="card">
                         <div class="card-header"><span class="fw-bold p-1" th:text="${task.getProject_status()}">TO DO</span><span class="text-muted p-1">5</span></div>
                         <div class="card-body">
-                            <div class="card edit_task" data-bss-hover-animate="pulse" data-bs-target="#modal_edit_task" data-bs-toggle="modal" th:each="board : ${boards}" th:if="${task.getKanban_id() == board.getKanban_id()}" th:data-board_name="${board.getKanban_id()}" th:data-create_nick="${board.getCreate_user_email()}" th:data-content="${board.getBoard_content()}" th:data-start_user_email="${board.getStart_user_email()}">
+                            <div class="card edit_task" data-bss-hover-animate="pulse" data-bs-target="#modal_edit_task" data-bs-toggle="modal" th:each="board : ${boards}" th:if="${task.getKanban_id() == board.getKanban_id()}" th:data-board_name="${board.getKanban_id()}" th:data-create_nick="${board.getCreate_user_name()}" th:data-content="${board.getBoard_content()}" th:data-start_nick="${board.getStart_user_name()}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-4 d-xl-flex ps-0 p">

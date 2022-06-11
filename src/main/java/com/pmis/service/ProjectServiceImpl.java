@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pmis.mapper.ProjectMapper;
+import com.pmis.mapper.UserMapper;
 import com.pmis.model.BoardCommentDTO;
 import com.pmis.model.MeetingDTO;
 import com.pmis.model.MeetingLogChatDTO;
 import com.pmis.model.MeetingLogDTO;
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectBoardJoinKanban;
+import com.pmis.model.ProjectBoardJoinUserDTO;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -22,7 +24,10 @@ import com.pmis.model.UserDTO;
 public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
-	private ProjectMapper projectMapper; 
+	private ProjectMapper projectMapper;
+	
+	@Autowired
+	private UserMapper userMapper; 
 	
 	@Override
 	public ArrayList<ProjectDTO> selectProjects(UserDTO user) {
@@ -103,6 +108,37 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.deleteBoardStatus(status);
 	}
 
+	// 프로젝트 task(board)와 user_name 같이 불러오기
+	@Override
+	public ArrayList<ProjectBoardJoinUserDTO> selectBoardJoinUsers(ProjectDTO project){
+		ArrayList<ProjectBoardJoinUserDTO> boards = projectMapper.selectBoardJoinUsers(project);
+		
+		for(int i =0; i < boards.size(); i++) {
+			// 보드 한개 가져와서 객체에 넣음
+			ProjectBoardJoinUserDTO board = boards.get(i);
+			
+			// 유저 객체 생성
+			UserDTO userInfo = new UserDTO();
+			
+			// create유저 name 검색
+			userInfo.setUser_email(board.getCreate_user_email());
+			userInfo = userMapper.getUser(userInfo);
+			// board 객체에 create 유저 name 값 넣어주기
+			board.setCreate_user_name(userInfo.getUser_name());
+			
+			// start유저 name 검색
+			userInfo.setUser_email(board.getStart_user_email());
+			userInfo = userMapper.getUser(userInfo);
+			// board 객체에 start 유저 name 값 넣어주기
+			board.setStart_user_name(userInfo.getUser_name());
+			
+			// 원래 위치에 board 객체 수정해서 넣어주기 			
+			boards.set(i, board);	
+		}
+		// boards 객체 반환
+		return boards;
+	}
+	
 	@Override
 	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project) {
 		// TODO Auto-generated method stub
@@ -170,8 +206,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user) {
-		
-		return projectMapper.selctGroupCheck(project, user);
+		return projectMapper.selctGroupCheck(project.getProject_id(), user.getUser_email());
 	}
 	
 	@Override

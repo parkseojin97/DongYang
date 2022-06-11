@@ -8,6 +8,7 @@ import com.pmis.model.MeetingLogChatDTO;
 import com.pmis.model.MeetingLogDTO;
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectBoardJoinKanban;
+import com.pmis.model.ProjectBoardJoinUserDTO;
 import com.pmis.model.ProjectDTO;
 import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.ProjectRuleDTO;
@@ -59,6 +60,9 @@ public interface ProjectService {
 	
 	// 프로젝트 task(board) 불러오기 
 	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project);		
+	
+	// 프로젝트 task(board)와 user_name 같이 불러오기
+	public ArrayList<ProjectBoardJoinUserDTO> selectBoardJoinUsers(ProjectDTO project);
 	
 	// 새로운 task(board) 생성
 	public boolean createBoard(ProjectBoardDTO board);		

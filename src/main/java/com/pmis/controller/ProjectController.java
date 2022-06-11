@@ -198,7 +198,7 @@ public class ProjectController {
 
 	// 칸반 생성
 	@PostMapping("createkanban")
-	public void createboard(Model model, ProjectStatusDTO projectkanban, HttpServletRequest req, HttpServletResponse res) 
+	public void createKanban(Model model, ProjectStatusDTO projectkanban, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
 		
 		res.setContentType("text/html; charset=UTF-8");
@@ -206,12 +206,34 @@ public class ProjectController {
     	
     	if(projectService.createBoardStatus(projectkanban)) {
 			out.println("<script>");
-			out.println("alert('프로젝트 보드 생성완료');");
+			out.println("alert('프로젝트 칸반 생성완료');");
 			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
 			out.println("</script>");
     	}else {
 			out.println("<script>");
-			out.println("alert('프로젝트 보드 생성실패');");
+			out.println("alert('프로젝트 칸반 생성실패');");
+			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
+			out.println("</script>");
+    	}
+    	
+	}
+	
+	// 칸반 삭제
+	@PostMapping("deletekanban")
+	public void deleteKanban(Model model, ProjectStatusDTO projectkanban, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	
+    	if(projectService.deleteBoardStatus(projectkanban)) {
+			out.println("<script>");
+			out.println("alert('프로젝트 칸반 삭제완료');");
+			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
+			out.println("</script>");
+    	}else {
+			out.println("<script>");
+			out.println("alert('프로젝트 칸반 삭제실패');");
 			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
 			out.println("</script>");
     	}
@@ -220,7 +242,7 @@ public class ProjectController {
 	
 	// board 생성
 	@PostMapping("createboard")
-	public void createTask(Model model, ProjectBoardDTO board, String time, HttpServletRequest req, HttpServletResponse res)
+	public void createBoard(Model model, ProjectBoardDTO board, String time, HttpServletRequest req, HttpServletResponse res)
 			throws IOException, ParseException {
 		res.setContentType("text/html; charset=UTF-8");
     	PrintWriter out = res.getWriter();
@@ -247,7 +269,7 @@ public class ProjectController {
 	
 	// board 수정
 		@PostMapping("updateboard")
-		public void updateTask(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
+		public void updateBoard(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
 				throws IOException, ParseException {
 			
 			res.setContentType("text/html; charset=UTF-8");
@@ -270,6 +292,26 @@ public class ProjectController {
 	    	}
 		}
 	
+		// board 삭제
+		@PostMapping("deleteboard")
+		public void deleteBoard(Model model, ProjectBoardDTO board, HttpServletRequest req, HttpServletResponse res)
+				throws IOException{
+			res.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = res.getWriter();
+			
+			if(projectService.deleteBoard(board)) {
+				out.println("<script>");
+				out.println("alert('보드 삭제완료');");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+				out.println("</script>");
+			}else {
+				out.println("<script>");
+				out.println("alert('보드 삭제실패');");
+				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+				out.println("</script>");
+			}
+		}
+		
 	// 그룹 초대 요청 
 	@PostMapping("inviteGroup")
 	public void insertGroup(Model model, ProjectDTO project, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
@@ -278,6 +320,7 @@ public class ProjectController {
 		PrintWriter out = res.getWriter();
 		join.setJoin_status("invite");
 		join.setRole("초대 요청");
+		
 		if(projectService.insertGroup(join)) {
 			model.addAttribute("joins", projectService.selctGroup(project));
 			out.println("<script>");
@@ -317,8 +360,16 @@ public class ProjectController {
 	@PostMapping("updateGroup")
 	public void updateGroup(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
+		
+		session = req.getSession();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+			
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
+		
+		join.setUser_email(userInfo.getUser_email());
+		join.setJoin_status("member");
+		
 		if(projectService.updateGroup(join)) {
 			out.println("<script>");
 			out.println("alert('그룹원 요청 처리 성공');");
@@ -338,8 +389,16 @@ public class ProjectController {
 	@PostMapping("deleteGroup")
 	public void deleteGroup(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
+		
+		session = req.getSession();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
+		
+		join.setUser_email(userInfo.getUser_email());
+		join.setJoin_status("member");
+		
 		if(projectService.deleteProjectUser(join)) {
 			out.println("<script>");
 			out.println("alert('그룹원 삭제 성공');");

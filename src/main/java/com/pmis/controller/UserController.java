@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,14 +28,19 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
+import com.pmis.model.ProjectJoinDTO;
 import com.pmis.model.UserDTO;
+import com.pmis.service.ProjectService;
 import com.pmis.service.UserService;
 
 @Controller
 public class UserController {
 	
 	@Autowired
-	private UserService userService;
+	private UserService userService;	
+	@Autowired
+	private ProjectService projectService;
+
 
 	HttpSession session;
 
@@ -151,7 +157,13 @@ public class UserController {
 	// 마이페이지
 	@GetMapping("mypage")
 	public String mypage(Model model, HttpServletRequest req, HttpServletResponse res) {
+
+		session = req.getSession();
 		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		ArrayList<ProjectJoinDTO> joins = projectService.selctinviteGroup(userInfo);
+		
+		model.addAttribute("joins", joins);	
+		
 		return "mypage";
 	}
 

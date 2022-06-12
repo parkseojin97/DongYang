@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0610</title>
+    <title>spmis0612</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/Article-Clean.css">
@@ -42,7 +42,11 @@
             <div class="row">
                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 col-xxl-3 mb-4" th:each="task : ${tasks}">
                     <div class="card">
-                        <div class="card-header"><span class="fw-bold p-1" th:text="${task.getProject_status()}">TO DO</span><span class="text-muted p-1">5</span></div>
+                        <div class="card-header"><span class="fw-bold p-1" th:text="${task.getProject_status()}">TO DO</span><span class="text-muted p-1">5</span>
+                            <form method="post" action="/deletekanban"><input class="form-control" type="hidden" name="kanban_id" th:value="${task.getKanban_id()}"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}"><input class="form-control" type="hidden" name="project_status" th:value="${task.getProject_status()}"><button class="btn float-end d-xl-flex p-1" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-trash-fill">
+                                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+                                    </svg></button></form>
+                        </div>
                         <div class="card-body">
                             <div class="card edit_task" data-bss-hover-animate="pulse" data-bs-target="#modal_edit_task" data-bs-toggle="modal" th:each="board : ${boards}" th:if="${task.getKanban_id() == board.getKanban_id()}" th:data-board_name="${board.getKanban_id()}" th:data-create_nick="${board.getCreate_user_name()}" th:data-content="${board.getBoard_content()}" th:data-start_nick="${board.getStart_user_name()}">
                                 <div class="card-body">
@@ -72,7 +76,9 @@
                                         <div class="col-4 ps-0">
                                             <p>마감일 :&nbsp;</p>
                                         </div>
-                                        <div class="col ps-0"><span class="fw-bold" th:text="${#dates.format(board.getBoard_create_date(), 'yyyy-MM-dd HH:mm:ss')}">LABEL</span></div></div></div></div></div><div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal" th:data-kanbanid="${task.getKanban_id()}"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
+                                        <div class="col ps-0"><span class="fw-bold" th:text="${#dates.format(board.getBoard_create_date(), 'yyyy-MM-dd HH:mm:ss')}">LABEL</span></div></div></div><div class="row"><div class="col ps-0"><form method="post" action="/deleteboard"><input class="form-control" type="hidden" name="project_id" th:value="${project.getProject_id()}"><input class="form-control" type="hidden" name="board_id" th:value="${board.getBoard_id()}"><button class="btn float-end d-xl-flex p-1" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-trash-fill">
+  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"></path>
+</svg></button></form></div></div></div></div><div class="card-footer"><button class="btn btn-primary fs-3 float-end d-xxl-flex align-items-xxl-center p-0 m-0" type="button" data-bs-target="#modal_add_task" data-bs-toggle="modal" th:data-kanbanid="${task.getKanban_id()}"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg" data-bs-toggle="tooltip" data-bss-tooltip="" title="Task를 생성합니다">
   <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>
 </svg></button></div></div></div></div></div><button class="btn btn-primary d-flex justify-content-center align-items-center align-content-center position-fixed" data-bs-toggle="modal" data-bss-tooltip="" id="float-btn-add" type="button" title="Board를 생성합니다" data-bs-target="#modal_add_board"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-plus-lg">
   <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"></path>

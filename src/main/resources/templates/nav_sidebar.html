@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org/">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0610</title>
+    <title>spmis0612</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="assets/css/Article-Clean.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
+    <link rel="stylesheet" href="/assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="/assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
-    <link rel="stylesheet" href="assets/css/Navbar-With-Button.css">
-    <link rel="stylesheet" href="assets/css/sidebar.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/Navbar-With-Button.css">
+    <link rel="stylesheet" href="/assets/css/sidebar.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 
 <body style="padding-left: 14rem;">
     <!-- Start: Sidebar -->
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed">
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid position-fixed" th:fragment="nav_sidebar">
         <!-- Start: Logo Holder -->
         <li class="nav-item logo-holder">
             <div class="text-center text-white logo py-4 mx-4"><a class="link-light text-decoration-none" id="title" href="/"><span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -64 640 640" width="1em" height="1em" fill="currentColor" class="me-1">
@@ -38,10 +38,10 @@
     </ul><!-- End: Sidebar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/modal.js"></script>
-    <script src="assets/js/sidebar.js"></script>
-    <script src="assets/js/tinymce.js"></script>
+    <script src="/assets/js/bs-init.js"></script>
+    <script src="/assets/js/modal.js"></script>
+    <script src="/assets/js/sidebar.js"></script>
+    <script src="/assets/js/tinymce.js"></script>
 </body>
 
 </html>

@@ -4,11 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>spmis0609</title>
+    <title>spmis0610</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/pulse/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
+    <link rel="stylesheet" href="assets/css/Article-Clean.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-4-Calendar-No-Custom-Code.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Navbar-With-Button.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
@@ -38,7 +42,7 @@
                                         <td th:text="${project.getProject_des()}"><a class="text-end d-block text-decoration-none text-reset" th:href="@{/project(project_id=${project.getProject_id()})}"><span th:text="${article.getBd_writer()}">작성자</span></a></td>
                                         <td class="d-none d-lg-table-cell"><a class="text-end d-block text-decoration-none text-black-50" th:href="@{/project(project_id=${project.getProject_id()})}" th:text="${project.getProject_create_date()}"><span th:text="${project.getProject_create_time()}">2008/12/31</span></a></td>
                                         <td th:if="${session.mem != null}">
-                                            <form action="/requestGroup" method="post"><button class="btn btn-primary float-end" type="submit">Button</button><input class="form-control" type="hidden" th:name="project_id" th:value="${project.getProject_id()}"></form>
+                                            <form action="/requestGroup" method="post"><button class="btn btn-primary float-end" type="submit">참가요청</button><input class="form-control" type="hidden" th:name="project_id" th:value="${project.getProject_id()}"></form>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -66,7 +70,10 @@
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/modal.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/tinymce.js"></script>
 </body>
 
 </html>

@@ -65,6 +65,22 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Delete("DELETE FROM " + PROJECT + " WHERE project_id=${project_id}")
 	boolean deleteProject(ProjectDTO project);
 	
+	// 프로젝트 삭제시 task(board) 삭제
+	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE project_id=${project_id}")
+	boolean deleteProjectBoard(ProjectDTO board);	
+	
+	// 프로젝트 삭제시 Kanban 삭제
+	@Delete("DELETE FROM " + PROJECTSTATUS + " WHERE project_id=${project_id}")
+	boolean deleteProjectKanban(ProjectDTO board);	
+	
+	// 프로젝트 삭제시 rule 삭제
+	@Delete("DELETE FROM " + PROJECTRULE + " WHERE project_id=${project_id}")
+	boolean deleteProjectRule(ProjectDTO board);	
+	
+	// 프로젝트 삭제시 projectjoin 삭제
+	@Delete("DELETE FROM " + PROJECTJOIN + " WHERE project_id=${project_id}")
+	boolean deleteProjectJoin(ProjectDTO board);	
+	
 	// task
 	// 보드로 칸반명 불러오기
 	@Select("SELECT * FROM " + PROJECTSTATUS + " where kanban_id=${kanban_id}")
@@ -79,16 +95,21 @@ public interface ProjectMapper extends DefaultDBInfo {
 	boolean createBoardStatus(ProjectStatusDTO status);
 	
 	// 칸반 삭제
-	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE kanban_id=${kanban_id}")
+	@Delete("DELETE FROM " + PROJECTSTATUS + " WHERE kanban_id=${kanban_id}")
 	boolean deleteBoardStatus(ProjectStatusDTO status);
 	
 	// board의 칸반 id 수정
 	@Update("UPDATE " + PROJECTBOARD + " SET kanban_id =${kanban_id}  "
 			+ " where board_id=#{board_id}")
 	boolean updateBoardKanbanID(ProjectBoardDTO board);
+	
 	// 프로젝트 task(board) 불러오기 
 	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=${project_id} ORDER BY board_id DESC")
 	ArrayList<ProjectBoardDTO> boards(ProjectDTO project);
+	
+	// 프로젝트 칸반아이디별 task(board) 불러오기
+	@Select("SELECT * FROM " + PROJECTBOARD + " WHERE kanban_id=${kanban_id}")
+	ArrayList<ProjectBoardDTO> kanbanboards(ProjectStatusDTO project);
 
 	// 새로운 task(board) 생성
 	@Insert("INSERT INTO " + PROJECTBOARD

@@ -41,11 +41,21 @@ public interface ProjectService {
 	// 프로젝트 조회
 	public ProjectDTO selectOneProject(ProjectDTO project);
 	
+	// 프로젝트 조회 (String형으로 Project_id하나만 받는경우)
+	public ProjectDTO selectOneProject(int project_id);
+	
+	// 프로젝트 조회
+	public ProjectDTO selectOneProjectToProjectJoin(ProjectJoinDTO join);
+
+	
 	// 가장 최신의 프로젝트 조회
 	public ProjectDTO selectLatestProject();
 	
 	// default칸반 TO DO, DOING, DONE 칸반 생성
 	public boolean createDefaultKanban(ProjectDTO project);
+	
+	// board의 kanban_id로 projectStatus테이블의 project_status 가져오기
+	public ProjectStatusDTO selectKanbanStatus(ProjectBoardDTO board);
 	
 	// task
 	// task 종류(칸반) 불러오기
@@ -57,6 +67,8 @@ public interface ProjectService {
 	// 칸반 삭제
 	public boolean deleteBoardStatus(ProjectStatusDTO status);
 	
+	// board의 칸반 id 수정
+	public boolean updateBoardKanbanID(ProjectBoardDTO board);
 	
 	// 프로젝트 task(board) 불러오기 
 	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project);		
@@ -108,7 +120,10 @@ public interface ProjectService {
 	public ArrayList<ProjectJoinDTO> selctinviteGroup(UserDTO user);
 	
 	// 그룹원 목록 불러오기
-	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project);
+	public ArrayList<ProjectJoinDTO> selectGroup(ProjectDTO project);
+	
+	// 프로젝트의 admin(관리자)인지 체크
+	public ProjectJoinDTO selectGroupAdmin(ProjectDTO project, UserDTO user);
 	
 	// 그룹원 추가
 	public boolean insertGroup(ProjectJoinDTO join); 
@@ -118,6 +133,9 @@ public interface ProjectService {
 	
 	// 그룹원 요청 처리
 	public boolean updateGroup(ProjectJoinDTO join);
+	
+	// 그룹원 역할명 변경 처리
+	public boolean updateRole(ProjectJoinDTO join);
 	
 	// 회의
 	// 회의 목록 불러오기

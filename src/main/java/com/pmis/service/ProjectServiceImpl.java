@@ -46,6 +46,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectPublicProjectCnt();
 	}
 	
+	
+	
 	@Override	
 	public boolean createProject(ProjectDTO project) {
 		// TODO Auto-generated method stub
@@ -59,6 +61,13 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectDTO selectOneProject(ProjectDTO project) {
 		return projectMapper.selectOneProject(project);
 	}
+	
+	// 프로젝트 조회
+	@Override
+	public ProjectDTO selectOneProjectToProjectJoin(ProjectJoinDTO join) {
+		return projectMapper.selectOneProjectToProjectJoin(join);
+	}
+	
 	@Override
 	public ProjectDTO selectLatestProject() {
 		return projectMapper.selectLatestProject();
@@ -208,11 +217,17 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public ProjectJoinDTO selctGroupCheck(ProjectDTO project, UserDTO user) {
-		return projectMapper.selctGroupCheck(project.getProject_id(), user.getUser_email());
+		return projectMapper.selectGroupCheck(project.getProject_id(), user.getUser_email());
+	}
+	
+	// 프로젝트의 admin(관리자)인지 체크
+	@Override	
+	public ProjectJoinDTO selectGroupAdmin(ProjectDTO project, UserDTO user){
+		return projectMapper.selectGroupAdminCheck(project.getProject_id(), user.getUser_email());
 	}
 	
 	@Override
-	public ArrayList<ProjectJoinDTO> selctGroup(ProjectDTO project) {
+	public ArrayList<ProjectJoinDTO> selectGroup(ProjectDTO project) {
 		// TODO Auto-generated method stub		
 		return projectMapper.group(project);
 	}
@@ -225,6 +240,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public boolean insertGroup(ProjectJoinDTO join) {
 		// TODO Auto-generated method stub		
+		if(projectMapper.checkJoin(join) != null) {
+			System.out.println("이미 등록된 사용자 있음");
+			return false;
+		}
 		return projectMapper.insertGroup(join);
 	}
 
@@ -236,11 +255,16 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Override
 	public boolean updateGroup(ProjectJoinDTO join) {
-		// TODO Auto-generated method stub
-		projectMapper.updateGroup(join);
-		return true;
+		// TODO Auto-generated method stub		
+		return projectMapper.updateGroup(join);
 	}
 
+	@Override
+	public boolean updateRole(ProjectJoinDTO join) {
+		
+		return projectMapper.updateRole(join);
+	}
+	
 	@Override
 	public ArrayList<MeetingDTO> selectMeeting(ProjectDTO project) {
 		// TODO Auto-generated method stub
@@ -295,6 +319,26 @@ public class ProjectServiceImpl implements ProjectService {
 	public boolean deleteMeetingChat(MeetingLogChatDTO meetinglogDTO) {
 		// TODO Auto-generated method stub		
 		return projectMapper.deleteMeetingChat(meetinglogDTO);
+	}
+	
+
+	@Override
+	public ProjectStatusDTO selectKanbanStatus(ProjectBoardDTO board) {
+		// TODO Auto-generated method stub
+		
+		return projectMapper.selectKanbanStatus(board);
+	}
+
+	@Override
+	public boolean updateBoardKanbanID(ProjectBoardDTO board) {
+		// TODO Auto-generated method stub
+		return projectMapper.updateBoardKanbanID(board);
+	}
+
+	@Override
+	public ProjectDTO selectOneProject(int project_id) {
+		// TODO Auto-generated method stub
+		return projectMapper.selectOneProjectForProject_id(project_id);
 	}
 
 }

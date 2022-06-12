@@ -49,6 +49,14 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Select("Select * from " + PROJECT + " where project_id=#{project_id}")
 	ProjectDTO selectOneProject(ProjectDTO project);
 	
+	// 프로젝트 조회
+	@Select("Select * from " + PROJECT + " where project_id=#{project_id}")
+	ProjectDTO selectOneProjectForProject_id(int project_id);
+	
+	// 프로젝트 조회
+	@Select("Select * from " + PROJECT + " where project_id=#{project_id}")
+	ProjectDTO selectOneProjectToProjectJoin(ProjectJoinDTO project);
+	
 	// 가장 최신의 프로젝트 조회
 	@Select("Select * from " + PROJECT + " order by project_id desc limit 1")
 	ProjectDTO selectLatestProject();
@@ -58,6 +66,10 @@ public interface ProjectMapper extends DefaultDBInfo {
 	boolean deleteProject(ProjectDTO project);
 	
 	// task
+	// 보드로 칸반명 불러오기
+	@Select("SELECT * FROM " + PROJECTSTATUS + " where kanban_id=${kanban_id}")
+	ProjectStatusDTO selectKanbanStatus(ProjectBoardDTO board);
+	
 	// task 종류(칸반) 불러오기
 	@Select("SELECT * FROM " + PROJECTSTATUS + " where project_id=${project_id} ORDER BY kanban_id")
 	ArrayList<ProjectStatusDTO> boardStatus(ProjectDTO project);	
@@ -70,6 +82,10 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Delete("DELETE FROM " + PROJECTBOARD + " WHERE kanban_id=${kanban_id}")
 	boolean deleteBoardStatus(ProjectStatusDTO status);
 	
+	// board의 칸반 id 수정
+	@Update("UPDATE " + PROJECTBOARD + " SET kanban_id =${kanban_id}  "
+			+ " where board_id=#{board_id}")
+	boolean updateBoardKanbanID(ProjectBoardDTO board);
 	// 프로젝트 task(board) 불러오기 
 	@Select("SELECT * FROM " + PROJECTBOARD + " where project_id=${project_id} ORDER BY board_id DESC")
 	ArrayList<ProjectBoardDTO> boards(ProjectDTO project);
@@ -131,15 +147,29 @@ public interface ProjectMapper extends DefaultDBInfo {
 	@Select("SELECT * FROM " + PROJECTJOIN 
 			+ " where project_id = #{project_id} and user_email= #{user_email} "
 			+ " and join_status in('admin', 'member')" )
-	ProjectJoinDTO selctGroupCheck(int project_id, String user_email);
+	ProjectJoinDTO selectGroupCheck(int project_id, String user_email);
+	
+	// 그룹원인지 체크하기위한 메서드
+	@Select("SELECT * FROM " + PROJECTJOIN 
+			+ " where project_id = #{project_id} and user_email= #{user_email} "
+			+ " and join_status = 'admin' " )
+	ProjectJoinDTO selectGroupAdminCheck(int project_id, String user_email);
+	
 	
 	// 그룹원 목록 불러오기
 	@Select("SELECT * FROM " + PROJECTJOIN + " where project_id=${project_id}") 
 	ArrayList<ProjectJoinDTO> group(ProjectDTO project);
 	
 	// 그룹원 초대상태목록 불러오기
-	@Select("SELECT * FROM " + PROJECTJOIN + " where user_email=#{user_email}") 
+	@Select("SELECT pj.project_id, user_email, role, join_status, project_name FROM " 
+	+ PROJECTJOIN + " pj, " + PROJECT 
+	+ " p where user_email=#{user_email} AND pj.project_id=p.project_id") 
 	ArrayList<ProjectJoinDTO> selctinviteGroup(UserDTO user);
+	
+	// 이미 그룹원이거나 초대 혹은 요청 상태인지 확인하기 위한 메서드
+	@Select("SELECT * FROM " + PROJECTJOIN 
+			+ " where project_id = #{project_id} and user_email= #{user_email} " )
+	ProjectJoinDTO checkJoin(ProjectJoinDTO join);
 	
 	// 그룹원 추가하기
 	@Insert("INSERT INTO " + PROJECTJOIN + " VALUES (${project_id}, #{user_email}, #{role}, #{join_status} )")
@@ -150,8 +180,11 @@ public interface ProjectMapper extends DefaultDBInfo {
 	boolean deleteGroup(ProjectJoinDTO join);
 	
 	// 그룹원 요청 처리
-	@Update("UPDATE " + PROJECTJOIN + " SET join_status=#{join_status} WHERE user_email=#{user_email} and project_id=${project_id}")		
+	@Update("UPDATE " + PROJECTJOIN + " SET join_status=#{join_status}, role=#{role} WHERE user_email=#{user_email} and project_id=${project_id}")		
 	boolean updateGroup(ProjectJoinDTO join);
+
+	@Update("UPDATE " + PROJECTJOIN + " SET role=#{role} WHERE user_email=#{user_email} and project_id=${project_id}")
+	boolean updateRole(ProjectJoinDTO join);
 	
 	// 회의
 	// 회의 목록 불러오기

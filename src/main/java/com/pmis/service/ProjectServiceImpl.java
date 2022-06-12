@@ -83,6 +83,30 @@ public class ProjectServiceImpl implements ProjectService {
 		// TODO Auto-generated method stub
 		return projectMapper.deleteProject(project);
 	}
+	
+	@Override
+	public boolean deleteProjectBoard(ProjectDTO project) {
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteProjectBoard(project);
+	}
+	
+	@Override
+	public boolean deleteProjectKanban(ProjectDTO project) {
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteProjectKanban(project);
+	}
+	
+	@Override
+	public boolean deleteProjectRule(ProjectDTO project) {
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteProjectRule(project);
+	}
+	
+	@Override
+	public boolean deleteProjectJoin(ProjectDTO project) {
+		// TODO Auto-generated method stub		
+		return projectMapper.deleteProjectJoin(project);
+	}
 
 	@Override 
 	public boolean createDefaultKanban(ProjectDTO project) {
@@ -154,6 +178,12 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.boards(project);
 	}
 
+	@Override
+	public ArrayList<ProjectBoardDTO> selectkanbanBoards(ProjectStatusDTO project) {
+		// TODO Auto-generated method stub
+		return projectMapper.kanbanboards(project);
+	}
+	
 	@Override
 	public boolean createBoard(ProjectBoardDTO board) {
 		// TODO Auto-generated method stub		

@@ -38,6 +38,18 @@ public interface ProjectService {
 	// 프로젝트 삭제
 	public boolean deleteProject(ProjectDTO project);
 	
+	// 프로젝트 삭제 시 task 삭제
+	public boolean deleteProjectBoard(ProjectDTO project);	
+	
+	// 프로젝트 삭제 시 kanban 삭제
+	public boolean deleteProjectKanban(ProjectDTO project);
+	
+	// 프로젝트 삭제 시 Rule 삭제
+	public boolean deleteProjectRule(ProjectDTO project);
+	
+	// 프로젝트 삭제 시 ProjectJoin 삭제
+	public boolean deleteProjectJoin(ProjectDTO project);
+	
 	// 프로젝트 조회
 	public ProjectDTO selectOneProject(ProjectDTO project);
 	
@@ -46,7 +58,6 @@ public interface ProjectService {
 	
 	// 프로젝트 조회
 	public ProjectDTO selectOneProjectToProjectJoin(ProjectJoinDTO join);
-
 	
 	// 가장 최신의 프로젝트 조회
 	public ProjectDTO selectLatestProject();
@@ -72,6 +83,9 @@ public interface ProjectService {
 	
 	// 프로젝트 task(board) 불러오기 
 	public ArrayList<ProjectBoardDTO> selectBoards(ProjectDTO project);		
+	
+	// 프로젝트 칸반아이디별 task(board) 불러오기 
+	public ArrayList<ProjectBoardDTO> selectkanbanBoards(ProjectStatusDTO project);
 	
 	// 프로젝트 task(board)와 user_name 같이 불러오기
 	public ArrayList<ProjectBoardJoinUserDTO> selectBoardJoinUsers(ProjectDTO project);

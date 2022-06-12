@@ -183,9 +183,13 @@ public class ProjectController {
 			out.println("alert('허가되지 않은 사용자의 접근입니다.');");
 			out.println("location.href='projects';");
 			out.println("</script>");
-    	}
-    	
-		if(projectService.deleteProject(project)) {
+    	}	
+		if(projectService.deleteProjectBoard(project)) {
+			projectService.deleteProjectKanban(project);
+			projectService.deleteProjectRule(project);
+			projectService.deleteProjectJoin(project);
+			projectService.deleteProject(project);
+			
 			out.println("<script>");
 			out.println("alert('프로젝트 삭제완료');");
 			out.println("location.href='projects';");
@@ -262,16 +266,34 @@ public class ProjectController {
 		res.setContentType("text/html; charset=UTF-8");
     	PrintWriter out = res.getWriter();
     	
-    	if(projectService.deleteBoardStatus(projectkanban)) {
+    	
+    	if(projectkanban.getProject_status().equals("TO DO") || projectkanban.getProject_status().equals("DOING") ||
+    			projectkanban.getProject_status().equals("DONE")) 
+    	{
 			out.println("<script>");
-			out.println("alert('프로젝트 칸반 삭제완료');");
+			out.println("alert('TO DO, DOING, DONE 칸반은 삭제가 불가능합니다.');");
 			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
 			out.println("</script>");
-    	}else {
-			out.println("<script>");
-			out.println("alert('프로젝트 칸반 삭제실패');");
-			out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
-			out.println("</script>");
+    	}
+    	else {
+    		if(projectService.selectkanbanBoards(projectkanban).isEmpty()) {
+				if(projectService.deleteBoardStatus(projectkanban)) {
+					out.println("<script>");
+					out.println("alert('프로젝트 칸반 삭제완료');");
+					out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
+					out.println("</script>");
+				}else {
+					out.println("<script>");
+					out.println("alert('프로젝트 칸반 삭제실패');");
+					out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
+					out.println("</script>");
+				}
+    		}else {
+				out.println("<script>");
+				out.println("alert('보드 먼저 삭제해주세요');");
+				out.println("location.href='project?project_id="+ projectkanban.getProject_id() +"';");
+				out.println("</script>");
+    		}
     	}
     	
 	}

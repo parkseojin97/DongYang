@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pmis.mapper.ProjectMapper;
 import com.pmis.model.ProjectBoardDTO;
 import com.pmis.model.ProjectBoardJoinKanban;
 import com.pmis.model.ProjectBoardJoinUserDTO;
@@ -67,7 +68,7 @@ public class ProjectController {
 		ArrayList<ProjectStatusDTO> tasks = projectService.selectBoardStatus(project);
 		ArrayList<ProjectBoardJoinUserDTO> boards = projectService.selectBoardJoinUsers(project);
 		ArrayList<ProjectRuleDTO> rules = projectService.selectRule(project);
-		ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
+		ArrayList<ProjectJoinDTO> joins = projectService.selectGroup(project);
 	
 		
 		model.addAttribute("tasks", tasks);
@@ -79,7 +80,7 @@ public class ProjectController {
 		return "project";
 	}
 	
-	// 프로젝트 입장 확인 모듈
+	// 프로젝트 입장 확인 메서드
 	public void selctGroupCheck(ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
 		res.setContentType("text/html; charset=UTF-8");
@@ -104,6 +105,31 @@ public class ProjectController {
 		}
 	}
 	
+	// 프로젝트 입장 후 프로젝트 정보 수정할때 그룹원인지 확인 메서드
+	public boolean selctGroupCheckInProject(ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		res.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = res.getWriter();		
+		
+		if(session == null) {
+			out.println("<script>");
+			out.println("alert('허가되지 않은 사용자의 접근입니다.');");
+			out.println("location.href='community';");
+			out.println("</script>");   
+			return false;
+		}else {
+			UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+			if(projectService.selctGroupCheck(project, userInfo) == null) {
+				out.println("<script>");
+				out.println("alert('허가되지 않은 사용자의 접근입니다');");
+				out.println("location.href='community';");
+				out.println("</script>");   
+				return false;
+			}		
+		}
+		return true;
+		
+	}
 	//프로젝트 생성
 	@PostMapping("createproject")
 	public void createProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res)
@@ -140,6 +166,7 @@ public class ProjectController {
 			out.println("</script>");
     	}
 	}
+	
 	//프로젝트 삭제
 	@PostMapping("deleteproject")
 	public void deleteProject(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res)
@@ -149,8 +176,14 @@ public class ProjectController {
 		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
 		res.setContentType("text/html; charset=UTF-8");
     	PrintWriter out = res.getWriter();
-    	ArrayList<ProjectJoinDTO> joins = projectService.selctGroup(project);
-    	if(userInfo.getUser_email().equals(joins)) {
+    	ProjectJoinDTO adminJoin = projectService.selectGroupAdmin(project, userInfo);
+    	
+    	if(adminJoin == null) {
+    		out.println("<script>");
+			out.println("alert('허가되지 않은 사용자의 접근입니다.');");
+			out.println("location.href='projects';");
+			out.println("</script>");
+    	}
     	
 		if(projectService.deleteProject(project)) {
 			out.println("<script>");
@@ -163,17 +196,20 @@ public class ProjectController {
 			out.println("location.href='projects';");
 			out.println("</script>");
     	}
-    	}
 	}
 
 	// 프로젝트 세팅 화면 이동
 	@GetMapping("settings")
-	public String settings(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) {		
-		ArrayList<ProjectJoinDTO> group =  projectService.selctGroup(project);
+	public String settings(Model model, ProjectDTO project, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {		
 		
-//		session = req.getSession();
-		model.addAttribute("group", group);
+		// 1. 프로젝트의 공개범위와 상관 없이 member인지 확인하고 아니면 redirect로 화면 넘기기			
+		selctGroupCheckInProject(project, req, res);
+		
+		ArrayList<ProjectJoinDTO> group =  projectService.selectGroup(project);	
+		model.addAttribute("groups", group);
 		model.addAttribute("project", project);		
+		System.out.println("뿌려주기 직전");
 		return "settings";
 	}
 	
@@ -250,7 +286,25 @@ public class ProjectController {
     	board.setCreate_user_email(userInfo.getUser_email());
     	
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-    	board.setFinal_expect_date(formatter.parse(time));
+    	
+    	// 생성할 보드의 상태명이 무엇인지 확인
+    	String project_status = projectService.selectKanbanStatus(board).getProject_status();
+    	// board가 생성될때 To Do 단계면 마감기한만 입력
+    	if(project_status == "TO DO") {
+    		board.setFinal_expect_date(formatter.parse(time));    		
+    	}   
+    	else if(project_status == "DOING") {// board가 생성될때 Doing 단계면 마감기한, 작업시작 날짜 입력
+    		board.setFinal_expect_date(formatter.parse(time));
+    		Date now = new Date();
+    		board.setStart_date(now);    		
+    	} else if(project_status == "DONE") {// board가 생성될때 Done 단계면 마감기한, 작업시작 날짜, 작업 종료 날짜 입력
+    		board.setFinal_expect_date(formatter.parse(time));
+    		Date now = new Date();
+    		board.setStart_date(now); 
+    		board.setFinal_date(now);
+    	}    	
+    	
+    	
     	
     	System.out.println(board);
     	
@@ -268,20 +322,44 @@ public class ProjectController {
 	}
 	
 	// board 수정
-		@PostMapping("updateboard")
-		public void updateBoard(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
-				throws IOException, ParseException {
+	@PostMapping("updateboard")
+	public void updateBoard(Model model, ProjectBoardDTO board, HttpServletRequest req, HttpServletResponse res)
+			throws IOException, ParseException {
+		
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	
+    	
+    	
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+//        board.setStart_date(formatter.parse(starttime));
+//        board.setFinal_date(formatter.parse(finaltime));
+    	
+    	if(projectService.updateBoard(board)) {
+			out.println("<script>");
+			out.println("alert('보드 생성완료');");
+			out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+			out.println("</script>");
+    	}else {
+			out.println("<script>");
+			out.println("alert('보드 생성실패');");
+			out.println("location.href='project?project_id="+ board.getProject_id() +"';");
+			out.println("</script>");
+    	}
+	}
+	
+	// boardstatus 변경 함수
+	@PostMapping("updateboardstatus")
+	public void updateBoardStatus(Model model, ProjectBoardDTO board, String starttime, String finaltime, HttpServletRequest req, HttpServletResponse res)
+			throws IOException, ParseException {
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+		ProjectDTO project = projectService.selectOneProject(board.getProject_id());
+		if(selctGroupCheckInProject(project, req, res)) {
 			
-			res.setContentType("text/html; charset=UTF-8");
-	    	PrintWriter out = res.getWriter();
-	    	
-	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-	        board.setStart_date(formatter.parse(starttime));
-	        board.setFinal_date(formatter.parse(finaltime));
-	    	
-	    	if(projectService.updateBoard(board)) {
+			if(projectService.updateBoardKanbanID(board)) {
 				out.println("<script>");
-				out.println("alert('보드 생성완료');");
+				out.println("alert('보드 status 수정완료');");
 				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
 				out.println("</script>");
 	    	}else {
@@ -290,11 +368,31 @@ public class ProjectController {
 				out.println("location.href='project?project_id="+ board.getProject_id() +"';");
 				out.println("</script>");
 	    	}
-		}
-	
-		// board 삭제
-		@PostMapping("deleteboard")
-		public void deleteBoard(Model model, ProjectBoardDTO board, HttpServletRequest req, HttpServletResponse res)
+		} 
+		
+		
+    	
+    	// 생성할 보드의 상태명이 무엇인지 확인
+//    	String project_status = projectService.selectKanbanStatus(board).getProject_status();
+    	// board가 생성될때 To Do 단계면 마감기한만 입력
+//    	if(project_status == "TO DO") {   		
+//    	}   
+//    	else if(project_status == "DOING") {// board가 수정될떄 Doing 단계면 작업시작 날짜 입력
+//    		Date now = new Date();
+//    		board.setStart_date(now);    		
+//    	} else if(project_status == "DONE") {// board가 수정될때 Done 단계면 마감기한, 작업시작 날짜, 작업 종료 날짜 입력
+//    		Date now = new Date();
+//    		board.setStart_date(now); 
+//    		board.setFinal_date(now);
+//    	}    	    	
+//    	
+    	// 일단은 status만 바뀌게 설정
+    	
+	}
+
+	// board 삭제
+	@PostMapping("deleteboard")
+	public void deleteBoard(Model model, ProjectBoardDTO board, HttpServletRequest req, HttpServletResponse res)
 				throws IOException{
 			res.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = res.getWriter();
@@ -320,17 +418,17 @@ public class ProjectController {
 		PrintWriter out = res.getWriter();
 		join.setJoin_status("invite");
 		join.setRole("초대 요청");
-		
+
 		if(projectService.insertGroup(join)) {
-			model.addAttribute("joins", projectService.selctGroup(project));
+			model.addAttribute("joins", projectService.selectGroup(project));
 			out.println("<script>");
 			out.println("alert('초대 요청 성공');");
-			out.println("location.href='/settings/ "+ project +"';");	
+			out.println("location.href='project?project_id="+ project.getProject_id() +"';");	
 			out.println("</script>");			
 		} else {
 			out.println("<script>");
 			out.println("alert('그룹원 추가 요청 실패');");
-			out.println("location.href='/settings';");
+			out.println("location.href='project?project_id="+ project.getProject_id() +"';");
 			out.println("</script>");
 		}
 	}
@@ -341,6 +439,8 @@ public class ProjectController {
 			throws IOException {
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		join.setUser_email(userInfo.getUser_email());
 		join.setJoin_status("request");
 		join.setRole("참가 요청");
 		if(projectService.insertGroup(join)) {
@@ -356,29 +456,108 @@ public class ProjectController {
 		}
 	}
 	
+	// 프로젝트 룰 추가
+	@PostMapping("insertRule")
+	public void insertRule(Model model, ProjectRuleDTO rule, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		res.setContentType("text/html; charset=UTF-8");
+    	PrintWriter out = res.getWriter();
+    	
+		ProjectDTO project = projectService.selectOneProject(rule.getProject_id());
+		if(selctGroupCheckInProject(project, req, res)) {
+			if(projectService.createRule(rule)) {
+				out.println("<script>");
+				out.println("alert('프로젝트 룰 생성완료');");
+				out.println("location.href='project?project_id="+ rule.getProject_id() +"';");
+				out.println("</script>");
+	    	}else {
+				out.println("<script>");
+				out.println("alert('프로젝트 룰 생성실패');");
+				out.println("location.href='project?project_id="+ rule.getProject_id() +"';");
+				out.println("</script>");
+	    	}
+		}		
+		
+		
+	}
+	
+	
+	@PostMapping("updateRole")
+	public void updateRole(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+		// 0. projectJoinDTO로 projectDTO 변환시켜서 
+		// 1. 현재 로그인 된 사람이 현재 프로젝트의 그룹원인지 확인
+		// 1-1. 로그인 된 사람이 현재 프로젝트의 그룹원이 아니면 리턴 시킨다. 
+		// 2. 그룹원이 맞다면 지정된 그룹원 역할명 변경을 해준다.
+		// 3. 역할명 변경이 성공적으로 마치면 settings 페이지로 다시 넘겨준다.
+		
+		ProjectDTO project = projectService.selectOneProjectToProjectJoin(join);
+		
+		res.setContentType("text/html; charset=UTF-8");
+		
+    	PrintWriter out = res.getWriter();    	
+    	if(selctGroupCheckInProject(project, req, res)) {
+    		if(projectService.updateRole(join)) {
+    			out.println("<script>");
+    			out.println("alert('역할 수정 성공');");
+    			out.println("location.href='settings';");
+    			out.println("</script>");
+    		} else {
+    			out.println("<script>");
+    			out.println("alert('역할 수정 실패');");
+    			out.println("location.href='settings';");
+    			out.println("</script>");
+    		}
+    	}
+	}
 	// 그룹 참가 요청 처리
+	
 	@PostMapping("updateGroup")
 	public void updateGroup(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
-		
-		session = req.getSession();
-		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
 			
 		res.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = res.getWriter();
 		
-		join.setUser_email(userInfo.getUser_email());
 		join.setJoin_status("member");
+		System.out.println(join);
 		
 		if(projectService.updateGroup(join)) {
 			out.println("<script>");
 			out.println("alert('그룹원 요청 처리 성공');");
-			out.println("location.href='/settings';");	
+			out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");	
 			out.println("</script>");			
 		} else {
 			out.println("<script>");
 			out.println("alert('그룹원 요청 처리 실패');");
-			out.println("location.href='/settings';");
+			out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");
+			out.println("</script>");
+			
+		}
+		
+	}
+	
+	@PostMapping("inviteRequestOK")
+	public void inviteRequestOK(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
+			throws IOException {
+			
+		res.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = res.getWriter();
+		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
+		join.setUser_email(userInfo.getUser_email());
+		join.setRole("그룹원");
+		join.setJoin_status("member");
+		System.out.println(join);
+		
+		if(projectService.updateGroup(join)) {
+			out.println("<script>");
+			out.println("alert('그룹원 요청 처리 성공');");
+			out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");	
+			out.println("</script>");			
+		} else {
+			out.println("<script>");
+			out.println("alert('그룹원 요청 처리 실패');");
+			out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");
 			out.println("</script>");
 			
 		}
@@ -389,28 +568,25 @@ public class ProjectController {
 	@PostMapping("deleteGroup")
 	public void deleteGroup(Model model, ProjectJoinDTO join, HttpServletRequest req, HttpServletResponse res) 
 			throws IOException {
-		
-		session = req.getSession();
-		UserDTO userInfo = (UserDTO) session.getAttribute("mem");
-		
 		res.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = res.getWriter();
+    	PrintWriter out = res.getWriter();    	
 		
-		join.setUser_email(userInfo.getUser_email());
-		join.setJoin_status("member");
+		ProjectDTO project = projectService.selectOneProject(join.getProject_id());
+		if(selctGroupCheckInProject(project, req, res)) {
+			if(projectService.deleteProjectUser(join)) {
+				out.println("<script>");
+				out.println("alert('그룹원 삭제 성공');");
+				out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");
+				out.println("</script>");			
+			} else {
+				out.println("<script>");
+				out.println("alert('그룹원 삭제 실패');");
+				out.println("location.href='/settings?project_id=" + join.getProject_id() + "';");
+				out.println("</script>");
+				
+			}
+		} 
 		
-		if(projectService.deleteProjectUser(join)) {
-			out.println("<script>");
-			out.println("alert('그룹원 삭제 성공');");
-			out.println("location.href='/settings';");	
-			out.println("</script>");			
-		} else {
-			out.println("<script>");
-			out.println("alert('그룹원 삭제 실패');");
-			out.println("location.href='/settings';");
-			out.println("</script>");
-			
-		}
 	}
 
 			

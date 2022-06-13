@@ -19,6 +19,7 @@ $('#modal_edit_group').on('shown.bs.modal', function (event) {
   var e = $(event.relatedTarget);    
   $('#edit_user_con').html(e.data('user_email')) ;    $('#edit_user').html(e.data('user_email')) ;
     $('#role').val(e.data('role')) ;
+    $('#project_id').val(e.data('projectid')) ;
     
 });
 

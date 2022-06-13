@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/Navbar-With-Button.css">
+    <link rel="stylesheet" href="/assets/css/sidebar.css">
 </head>
 
 <body style="padding-left: 14rem;">
-    <div th:insert="/project_navbar::nav"></div>
-    <div th:insert="/nav_sidebar::ul"></div>
+    <div th:insert="~{project_navbar::project_navbar}"></div>
+    <div th:insert="~{nav_sidebar::nav_sidebar}"></div>
    
     <div class="container">
         <h2>나의 프로젝트</h2>

@@ -58,7 +58,7 @@
                                         <tr th:each="g : ${groups}" th:if="${g.getJoin_status() == 'member' or g.getJoin_status() == 'admin'}">
                                             <td th:text="${g.getUser_email()}">홍길동(email)</td>
                                             <td th:text="${g.getRole()}"></td>
-                                            <td><button class="btn btn-primary bg-danger border-danger float-end" type="button" data-bs-target="#modal_del_group" data-bs-toggle="modal" th:data-user_email="${g.getUser_email()}"><i class="far fa-trash-alt"></i></button><button class="btn btn-primary float-end me-2" type="button" data-bs-target="#modal_edit_group" data-bs-toggle="modal" th:data-user_email="${g.getUser_email()}" th:data-role="${g.getRole()}" th:data-projectid="${g.project_id()}"><i class="fas fa-cog"></i></button></td>
+                                            <td><button class="btn btn-primary bg-danger border-danger float-end" type="button" data-bs-target="#modal_del_group" data-bs-toggle="modal" th:data-user_email="${g.getUser_email()}"><i class="far fa-trash-alt"></i></button><button class="btn btn-primary float-end me-2" type="button" data-bs-target="#modal_edit_group" data-bs-toggle="modal" th:data-user_email="${g.getUser_email()}" th:data-role="${g.getRole()}" th:data-projectid="${project.project_id()}"><i class="fas fa-cog"></i></button></td>
                                         </tr>
                                         <tr th:each="g : ${groups}" th:if="${g.getJoin_status() == null}"></tr>
                                     </tbody>
